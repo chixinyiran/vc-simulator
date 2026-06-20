@@ -140,7 +140,7 @@ const CONFIG = {
     btnContinue: '继续下一站',
     // 结局页
     mbtiHead: '— 你的投资风格画像 —',
-    genImage: '📸 生成战绩长图',
+    genImage: '生成战绩长图',
     genImageWait: '正在生成长图，请稍候…',
     genImageOk: '生成成功！',
     genImageFail: '生成失败，请直接截图保存',

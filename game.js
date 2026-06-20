@@ -1,5 +1,8 @@
 const MUSIC_SVG_ON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 5.5a9 9 0 010 13"/></svg>`;
 const MUSIC_SVG_OFF=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>`;
+const IC_CAMERA=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`;
+const IC_LINK=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+const IC_RESTART=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L3 8"/></svg>`;
 // === 数据合并(从配置和数据文件聚合,代码层只用 GAME 这个统一对象)===
 const $game = document.getElementById('game');
 const $ending = document.getElementById('ending');
@@ -542,11 +545,11 @@ function showEnding(healthDead){
       <div class="sc-foot">中国创业投资模拟器 · <b>2000—2026</b> · 🦞 小龙虾出品<div class="qr-tip">长按/扫码也来走一遍你的投资人生 · 仅供娱乐</div></div>
     </div>
     <div class="share-actions">
-      <button class="btn" onclick="genImage()">${CONFIG.text.genImage}</button>
-      <button class="btn ghost" onclick="copyLink()">🔗 复制分享链接</button>
-      <button class="btn ghost" onclick="goHome()">↻ 重新开始</button>
+      <button class="btn" onclick="genImage()"><span class="btn-ic">${IC_CAMERA}</span>${CONFIG.text.genImage}</button>
+      <button class="btn ghost" onclick="copyLink()"><span class="btn-ic">${IC_LINK}</span>复制分享</button>
+      <button class="btn ghost" onclick="goHome()"><span class="btn-ic">${IC_RESTART}</span>重新开始</button>
     </div>
-    <div class="share-hint">📸 长图生成后会弹出预览，手机端长按图片即可保存到相册<br>🔗 复制链接发给朋友，挑战谁是更强的投资人</div>`;
+    <div class="share-hint"><span class="hint-ic">${IC_CAMERA}</span>长图生成后会弹出预览，手机端长按图片即可保存到相册<br><span class="hint-ic">${IC_LINK}</span>复制链接发给朋友，挑战谁是更强的投资人</div>`;
   renderMBTI();
   // 保存本局结果(供回看) + 清掉中途进度
   gameOver=true; clearProgress();
