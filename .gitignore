@@ -1,0 +1,5 @@
+deploy/
+*.bak
+*.bak.*
+.DS_Store
+miaoda_*/
