@@ -556,8 +556,12 @@ function mbtiDimBars(){
   };
 }
 function calcScore(){
-  const W=CONFIG.scoreWeights, HD=CONFIG.healthDeath;
-  let s=state.track*W.track + state.aum*W.aum + state.network*W.network + state.luck*W.luck;
+  // 新计分：每题按结果档位计分(满分50)，20题累加，满分1000
+  const TP=CONFIG.tierPoints;
+  let s=0;
+  for(const h of fullHistory){ s+=(TP[h.tier]!==undefined?TP[h.tier]:0); }
+  // 健康过低/出局做轻度打折(体力管理仍有意义)
+  const HD=CONFIG.healthDeath;
   if(state.health<HD.earlyOutThreshold) s*=HD.earlyOutPenalty;
   if(state.health<=0) s*=HD.deadPenalty;
   return Math.round(s);

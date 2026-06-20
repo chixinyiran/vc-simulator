@@ -56,6 +56,7 @@ const CONFIG = {
 
   // 综合评分公式权重
   scoreWeights: { track:1.8, aum:0.28, network:0.5, luck:3.5 },
+  tierPoints: { SS:50, S:38, A:25, B:12, C:0 },
 
   // 小额参投(资本不够时兜底)回报系数
   smallTicketFactor: 0.5,
