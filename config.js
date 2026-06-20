@@ -81,8 +81,8 @@ const CONFIG = {
     fadeOutMs: 250,
     schedAheadSec: 0.2,
     lookaheadMs: 80,
-    defaultOn: false,  // 已停用(合成音效果不佳,2026-06-20去掉)
-    enabled: false,    // 音乐总开关:false时完全隐藏按钮+不播放
+    defaultOn: true,   // 默认开(首次交互时响起)
+    enabled: true,     // 音乐总开关(已换真实mp3年代金曲风)
   },
 
   // === UI 文案（封面等通用文本，便于改）===
