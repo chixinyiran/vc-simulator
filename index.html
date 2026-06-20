@@ -434,7 +434,7 @@ function undoStaged(){
   const last=stagedThisPeriod.pop();
   const tm=TREND_MBTI[last.deal.trend]; if(tm){for(const k in tm)mbti[k]-=tm[k];}
   selDeal=null; saveProgress();
-  renderChoice();
+  showChoices();
 }
 function advance(){
   const p=GAME.periods[pIdx];
