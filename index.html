@@ -210,7 +210,7 @@ function introStart(){
   else startGame();
 }
 function newGameConfirm(){
-  if(confirm(CONFIG.ui.confirmRestart)){ clearProgress(); startGame(); }
+  if(confirm(CONFIG.ui.confirmRestart)){ goHome(); }
 }
 // 当前时期索引(给音乐用)，gameOver或封面时为-1
 function curMusicPeriod(){ return (typeof pIdx==='number' && !gameOver && !document.getElementById('game').classList.contains('hidden'))?pIdx:(typeof pIdx==='number'?pIdx:0); }
@@ -233,6 +233,19 @@ function startGame(){
   document.getElementById('ending').innerHTML='';
   document.getElementById('game').classList.add('hidden');
   showPeriodIntro();
+}
+function goHome(){
+  // 回到首页(封面+介绍)，清掉中途进度，让玩家从首页重新进入
+  clearProgress(); resetTheme(); gameOver=false;
+  Music.setPeriod && Music.setPeriod(0);
+  document.getElementById('game').classList.add('hidden');
+  document.getElementById('ending').classList.add('hidden');
+  document.getElementById('ending').innerHTML='';
+  const pi=document.getElementById('periodIntro'); if(pi) pi.classList.add('hidden');
+  document.getElementById('cover').classList.remove('hidden');
+  document.getElementById('introZone').style.display='';
+  initCover();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 function curTitle(){let t=GAME.titles[0].name;for(const x of GAME.titles){if(state.track>=x.min)t=x.name;}return t;}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
@@ -577,7 +590,7 @@ function showEnding(healthDead){
     <div class="share-actions">
       <button class="btn" onclick="genImage()">📸 生成战绩长图</button>
       <button class="btn ghost" onclick="copyLink()">🔗 复制分享链接</button>
-      <button class="btn ghost" onclick="startGame()">↻ 再来一局</button>
+      <button class="btn ghost" onclick="goHome()">↻ 回首页重新开始</button>
     </div>
     <div class="share-hint">📸 长图生成后会弹出预览，手机端长按图片即可保存到相册<br>🔗 复制链接发给朋友，挑战谁是更强的投资人</div>`;
   renderMBTI();
