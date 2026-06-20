@@ -4,11 +4,11 @@
 
 const DATA_ENDINGS = {
   endingTiers: [
-    { min: 850, key: "legend" },       // 满分1000
-    { min: 650, key: "master" },
-    { min: 450, key: "veteran" },
-    { min: 300, key: "steady" },
-    { min: 150, key: "rollercoaster" },
+    { min: 760, key: "legend" },       // 满分1000
+    { min: 640, key: "master" },
+    { min: 520, key: "veteran" },
+    { min: 400, key: "steady" },
+    { min: 260, key: "rollercoaster" },
     { min: 0,   key: "exit" },
   ],
   endingMeta: {

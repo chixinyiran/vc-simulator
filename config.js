@@ -28,8 +28,8 @@ const CONFIG = {
     baseClamp: { min:0.05, max:0.93 },
     luckPerPoint: 0.012,              // 每点运气对胜率影响
     luckClamp: { min:-0.16, max:0.20 },
-    perfWeight: { base:0.80, dice:0.20 },  // 运气(骰子)只做小幅扰动，同样选择运气最多影响上下一档
-    tierCuts: { SS:0.805, S:0.625, A:0.445, B:0.29 },  // 低于B的就是C
+    perfWeight: { base:0.68, dice:0.32 },  // 运气适度参与:同样选择运气影响约上下一档，又能拉开分数
+    tierCuts: { SS:0.80, S:0.62, A:0.44, B:0.28 },  // 低于B的就是C
   },
 
   // 运气增减（按结果档位）
@@ -56,7 +56,7 @@ const CONFIG = {
 
   // 综合评分公式权重
   scoreWeights: { track:1.8, aum:0.28, network:0.5, luck:3.5 },
-  tierPoints: { SS:50, S:38, A:25, B:12, C:0 },
+  tierPoints: { SS:50, S:40, A:28, B:15, C:5 },
 
   // 小额参投(资本不够时兜底)回报系数
   smallTicketFactor: 0.5,

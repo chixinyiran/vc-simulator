@@ -19,9 +19,10 @@
     <div class="cover-btns" id="coverBtns"></div>
     <div class="cover-stats" id="coverStats"></div>
     <div class="credit" id="coverCredit"></div>
-    <div class="scroll-hint" id="scrollHint" onclick="scrollToIntro()"></div>
   </div>
-  <div id="introZone" class="intro-zone"></div>
+  <button class="info-btn" id="infoBtn" onclick="toggleTip()" title="了解玩法" aria-label="了解玩法"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r="0.6" fill="currentColor"/></svg></button>
+  <div id="tipMask" class="tip-mask hidden" onclick="closeTip(event)"><div class="tip-panel" id="tipPanel"></div></div>
+  <div id="introZone" class="intro-zone" style="display:none"></div>
 
   <div id="periodIntro" class="screen hidden"></div>
 
@@ -164,7 +165,6 @@ function initCover(){
   document.getElementById('coverSub').innerHTML=U.coverSub;
   document.getElementById('coverRules').innerHTML=U.coverRules;
   document.getElementById('coverCredit').innerHTML=U.coverCredit;
-  document.getElementById('scrollHint').innerHTML=U.scrollHint||'';
   // 被邀请横幅
   const inv=getInviter(); const ib=document.getElementById('inviteBanner');
   if(inv){ ib.innerHTML='🎉 你是被 <b>'+inv.name+'</b> 邀请来的，开启属于你的二十六年吧'; ib.style.display='block'; lsSet('vcsim_invited_by',inv); }
@@ -192,21 +192,19 @@ function initCover(){
   } else sc.innerHTML='';
 }
 function renderIntro(){
-  const zone=document.getElementById('introZone'); if(!zone)return;
-  const cards=(CONFIG.intro||[]).map(c=>`
+  const panel=document.getElementById('tipPanel'); if(!panel)return;
+  // 只取前3部分（这是什么游戏/故事背景/核心设定）
+  const cards=(CONFIG.intro||[]).slice(0,3).map(c=>`
     <div class="intro-card">
       <div class="ic-icon">${c.icon}</div>
       <div class="ic-body"><div class="ic-title">${c.title}</div><div class="ic-text">${c.body}</div></div>
     </div>`).join('');
-  zone.innerHTML=`
-    <div class="intro-inner">
-      ${cards}
-      <div class="intro-cta">
-        <button class="btn" onclick="introStart()">开始这段二十六年</button>
-      </div>
-    </div>`;
+  panel.innerHTML=`
+    <div class="tip-head"><span>了解玩法</span><button class="tip-close" onclick="toggleTip()">×</button></div>
+    ${cards}`;
 }
-function scrollToIntro(){ document.getElementById('introZone').scrollIntoView({behavior:'smooth'}); }
+function toggleTip(){ const m=document.getElementById('tipMask'); m.classList.toggle('hidden'); }
+function closeTip(e){ if(e.target.id==='tipMask') document.getElementById('tipMask').classList.add('hidden'); }
 function introStart(){
   // 介绍区底部按钮：直接进入第一章(开新局)。若有存档则二次确认避免误删
   const save=lsGet(SAVE_KEY);
