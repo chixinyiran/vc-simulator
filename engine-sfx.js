@@ -3,7 +3,7 @@
 // 作者 小龙虾 2026-06-21
 const Sfx = (function(){
   let ctx=null, master=null, enabled=true;
-  const VOL=0.6;  // 音效总音量(明显高于背景乐,反馈清晰)
+  const VOL=0.85;  // 音效总音量(明显高于背景乐,反馈清晰)
 
   function ensure(){
     if(!ctx){
@@ -34,13 +34,15 @@ const Sfx = (function(){
 
   const lib={
     // 选项点选：清脆短"叮"
-    pick(){ tone(880, 0, 0.10, 'triangle', 0.4); tone(1320,0.02,0.08,'sine',0.25); },
+    pick(){ tone(880, 0, 0.10, 'triangle', 0.5); tone(1320,0.02,0.08,'sine',0.3); },
     // 封存确认：稳重"咚"(盖章感)
-    confirm(){ tone(330,0,0.16,'sine',0.55,180); tone(165,0,0.20,'sine',0.4,110); },
+    confirm(){ tone(330,0,0.16,'sine',0.6,180); tone(165,0,0.20,'sine',0.45,110); },
     // 按钮通用 click
-    click(){ tone(660,0,0.07,'square',0.4); },
+    click(){ tone(660,0,0.09,'square',0.5); tone(990,0.01,0.07,'sine',0.25); },
     // 翻页/推进
-    swipe(){ tone(520,0,0.12,'sine',0.3,780); },
+    swipe(){ tone(520,0,0.14,'triangle',0.5,820); tone(780,0.04,0.10,'sine',0.3); },
+    // 开始游戏/启程：明亮上扬三音琴音，有仪式感(专门给重要入场动作)
+    start(){ arp([523,784,1047], 0.075, 0.26, 'triangle', 0.6); tone(1319,0.18,0.32,'sine',0.4); },
     // 揭晓结果(按档位)
     SS(){ arp([523,659,784,1047,1319], 0.075, 0.28, 'triangle', 0.5); tone(1568,0.34,0.4,'sine',0.35); }, // 欢庆上行+亮顶
     S(){ arp([523,784,1047], 0.07, 0.24, 'triangle', 0.45); },   // 明亮三音

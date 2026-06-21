@@ -180,7 +180,7 @@ function toggleMusic(){
 }
 
 function startGame(){
-  if(window.Sfx)Sfx.play('swipe');
+  if(window.Sfx)Sfx.play('start');
   clearProgress();
   resetTheme();
   state={...GAME.start};
