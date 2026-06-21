@@ -32,8 +32,9 @@
   .btn-ic{display:inline-flex;align-items:center;}
   .btn-ic svg{width:17px;height:17px;display:block;}
   @media (hover: hover) {
-  .btn:hover{background:var(--accent,#8a5a3a);color:var(--paper);border-color:var(--accent,#8a5a3a);} .btn:active{transform:scale(.97);background:var(--accent,#8a5a3a);color:var(--paper);border-color:var(--accent,#8a5a3a);}
+    .btn:hover{background:var(--accent,#8a5a3a);color:var(--paper);border-color:var(--accent,#8a5a3a);}
   }
+  .btn:active{transform:scale(.97);background:var(--accent,#8a5a3a);color:var(--paper);border-color:var(--accent,#8a5a3a);}
   .btn.ghost{padding:12px 28px;font-size:14px;}
   /* ===== 点击灵动效果 ===== */
   .btn,.scenario .sc-opt,.deal,.undo-icon,.music-btn,.info-btn,.tip-close{position:relative;overflow:hidden;}
