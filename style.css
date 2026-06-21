@@ -28,7 +28,8 @@
   #cover h1{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-weight:900;font-size:clamp(48px,13vw,92px);line-height:1.12;letter-spacing:.04em;margin-bottom:32px;}
   #cover .sub{color:var(--ink-soft);font-size:clamp(15px,3.6vw,18px);max-width:470px;line-height:2.1;margin-bottom:30px;}
   #cover .rules{font-size:12.5px;color:var(--ink-faint);line-height:2;max-width:430px;margin-bottom:40px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:inherit;font-size:16px;font-weight:600;padding:15px 42px;cursor:pointer;letter-spacing:.12em;transition:all .25s ease;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-family:inherit;font-size:16px;font-weight:600;padding:15px 42px;cursor:pointer;letter-spacing:.12em;transition:all .25s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
+  .deal,.scenario .sc-opt,.undo-icon,.music-btn,.info-btn,.tip-close{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
   .btn-ic{display:inline-flex;align-items:center;}
   .btn-ic svg{width:17px;height:17px;display:block;}
   @media (hover: hover) {
