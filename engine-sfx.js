@@ -62,6 +62,8 @@ const Sfx = (function(){
     if(unlocked) return;
     unlocked=true;
     ensure();
+    // 在用户手势同步上下文立即 resume(这是浏览器唯一认可的解锁时机)
+    if(ctx && ctx.state==='suspended'){ try{ ctx.resume(); }catch(e){} }
     // 播一个极轻的静默音“唤醒”音频管线
     if(ctx){ try{ const o=ctx.createOscillator(),g=ctx.createGain(); g.gain.value=0.0001; o.connect(g); g.connect(master); o.start(); o.stop(ctx.currentTime+0.02);}catch(e){} }
   }
@@ -79,11 +81,18 @@ const Sfx = (function(){
       if(!ensure()) return;
       const fn=lib[name];
       if(!fn) return;
-      // ctx 刚解锁可能还是 suspended(resume 是异步),此时直接播会没声
-      // 处理:若 suspended 则 resume 后在回调里补播;否则立即播
+      // ctx 刚解锁可能还是 suspended(resume 是异步)。
+      // 关键:resume.then 的回调已脱离用户手势上下文,首声 oscillator 会被浏览器静音/丢弃。
+      // 解法:resume 后轮询等 ctx.state 真正变 running 再播,确保振荡器在激活管线上发声。
       if(ctx.state==='suspended'){
-        try{ ctx.resume().then(()=>{ try{ fn(); }catch(e){} }).catch(()=>{ try{ fn(); }catch(e){} }); }
-        catch(e){ try{ fn(); }catch(e2){} }
+        try{ ctx.resume(); }catch(e){}
+        let tries=0;
+        (function waitRun(){
+          if(ctx.state==='running'){ try{ fn(); }catch(e){} return; }
+          if(tries++>20){ try{ fn(); }catch(e){} return; }  // 兜底:最多等~400ms仍播
+          try{ ctx.resume(); }catch(e){}
+          setTimeout(waitRun, 20);
+        })();
       } else {
         try{ fn(); }catch(e){}
       }
