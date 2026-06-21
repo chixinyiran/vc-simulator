@@ -62,7 +62,27 @@ function saveProgress(){
 }
 function clearProgress(){ lsDel(SAVE_KEY); }
 // 保存完成的结果
+// ===== 上报到后端(全栈版数据收集,同源fetch,静默失败不影响游戏) =====
+// 上报:优先 postMessage 给父页(应用同源,带csrf调API);同时尝试同源fetch(独立打开时)
+function reportApi(kind, body){
+  try{ if(window.parent && window.parent!==window){ window.parent.postMessage(Object.assign({__vcsim__:kind}, body), '*'); } }catch(e){}
+  try{ fetch('/api/share/'+kind,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),keepalive:true}).catch(()=>{}); }catch(e){}
+}
+function reportResult(payload){
+  reportApi('result',{
+    playerId:getPlayerId(), playerName:getPlayerName(),
+    score:payload.score, title:payload.title, style:payload.styleTitle
+  });
+}
+function reportVisit(){
+  const inv=getInviter();
+  reportApi('visit',{
+    visitorId:getPlayerId(), playerName:getPlayerName(),
+    inviterId:inv?inv.id:null, inviterName:inv?inv.name:null
+  });
+}
 function saveResult(payload){
+  reportResult(payload);
   lsSet(RESULT_KEY,payload);
   // 更新历史统计
   let st=lsGet(STATS_KEY)||{plays:0,bestScore:0,bestTitle:'',styles:{}};
@@ -73,6 +93,7 @@ function saveResult(payload){
 }
 // 续玩：恢复存档继续
 function continueGame(){
+  if(window.Sfx)Sfx.play('swipe');
   const s=lsGet(SAVE_KEY); if(!s){startGame();return;}
   state={...GAME.start,...s.state}; upPicks=s.upPicks||0; pIdx=s.pIdx; rIdx=s.rIdx; stagedThisPeriod=s.stagedThisPeriod||[];
   fullHistory=s.fullHistory||[]; mbti=s.mbti||{risk:0,mind:0}; selDeal=null; gameOver=false;
@@ -87,6 +108,7 @@ function continueGame(){
 }
 // 回看上次结果
 function viewLastResult(){
+  if(window.Sfx)Sfx.play('click');
   const r=lsGet(RESULT_KEY); if(!r){return;}
   document.getElementById('cover').classList.add('hidden');
   $game.classList.add('hidden');
@@ -109,6 +131,7 @@ function initCover(){
   if(inv){ ib.innerHTML=CONFIG.text.invited.replace(/\$\{name\}/g,inv.name); ib.style.display='block'; lsSet('vcsim_invited_by',inv); }
   else ib.style.display='none';
   getPlayerId(); // 确保本机有专属ID
+  reportVisit(); // 上报访问(含邀请人)
   renderIntro();
   const btns=document.getElementById('coverBtns');
   const save=lsGet(SAVE_KEY), result=lsGet(RESULT_KEY), stats=lsGet(STATS_KEY);
@@ -142,9 +165,10 @@ function renderIntro(){
     <div class="tip-head"><span>了解玩法</span><button class="tip-close" onclick="toggleTip()">×</button></div>
     ${cards}`;
 }
-function toggleTip(){ const m=document.getElementById('tipMask'); m.classList.toggle('hidden'); }
+function toggleTip(){ if(window.Sfx)Sfx.play('click'); const m=document.getElementById('tipMask'); m.classList.toggle('hidden'); }
 function closeTip(e){ if(e.target.id==='tipMask') document.getElementById('tipMask').classList.add('hidden'); }
 function newGameConfirm(){
+  if(window.Sfx)Sfx.play('click');
   if(confirm(CONFIG.ui.confirmRestart)){ goHome(); }
 }
 function toggleMusic(){
@@ -156,6 +180,7 @@ function toggleMusic(){
 }
 
 function startGame(){
+  if(window.Sfx)Sfx.play('swipe');
   clearProgress();
   resetTheme();
   state={...GAME.start};
@@ -169,6 +194,7 @@ function startGame(){
   showPeriodIntro();
 }
 function goHome(){
+  if(window.Sfx)Sfx.play('click');
   // 回到首页(封面+介绍)，清掉中途进度，让玩家从首页重新进入
   clearProgress(); resetTheme(); gameOver=false;
   stopMusic();
@@ -223,6 +249,7 @@ function showPeriodIntro(){
   window.scrollTo({top:0});
 }
 function enterPeriod(){
+  if(window.Sfx)Sfx.play('swipe');
   saveProgress();
   maybeStartMusic();
   applyPeriodTheme(pIdx);
@@ -245,6 +272,7 @@ function showScenario(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function pickScenario(i){
+  if(window.Sfx)Sfx.play('pick');
   const p=GAME.periods[pIdx];
   const o=MBTI.scenarios[p.id].opts[i];
   if(o.e){for(const k in o.e)mbti[k]+=o.e[k];}
@@ -367,6 +395,7 @@ function confirmDeal(){
 }
 // 未揭晓前撤回当前这笔押注，重新选择本站（回滚 MBTI 加分）
 function undoStaged(){
+  if(window.Sfx)Sfx.play('click');
   if(!stagedThisPeriod.length) return;
   const last=stagedThisPeriod.pop();
   const tm=TREND_MBTI[last.deal.trend]; if(tm){for(const k in tm)mbti[k]-=tm[k];}
@@ -468,6 +497,7 @@ function revealPeriod(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function afterPeriod(healthDead){
+  if(window.Sfx)Sfx.play('swipe');
   stagedThisPeriod=[];
   if(healthDead){ showEnding(true); return; }
   if(pIdx>=GAME.periods.length-1){ showEnding(false); return; }
@@ -594,6 +624,7 @@ function renderMBTI(){
 
 function toast(msg,ms){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),ms||2200);}
 function genImage(){
+  if(window.Sfx)Sfx.play('click');
   const card=document.getElementById('shareCard');
   toast(CONFIG.text.genImageWait,4000);
   setTimeout(()=>{
@@ -609,6 +640,7 @@ function genImage(){
 }
 function closeImg(){document.getElementById('imgModal').classList.remove('show');}
 function copyLink(){
+  if(window.Sfx)Sfx.play('click');
   let nm=getPlayerName();
   if(!nm){
     const input=prompt(CONFIG.text.promptName,'');

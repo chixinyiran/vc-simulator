@@ -6,7 +6,7 @@
 
 const Music = (function(){
   let audio=null, on=false, curIdx=-1, fadeTimer=null;
-  const VOL = 0.3;  // 目标音量(背景乐,低音量不抢戏)
+  const VOL = 0.4;  // 目标音量(背景乐,低音量不抢戏)
 
   function ensureAudio(){
     if(!audio){
@@ -21,7 +21,7 @@ const Music = (function(){
   }
   function srcFor(idx){
     const p='P'+(idx>=0?idx+1:1);
-    return 'audio/'+p+'.mp3?v=20260621q';  // 版本号破缓存(欢快版)
+    return 'audio/'+p+'.mp3?v=20260621r';  // 版本号破缓存(欢快版)
   }
   function fadeTo(target, ms, onDone){
     if(!audio) return;

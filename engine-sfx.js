@@ -3,7 +3,7 @@
 // 作者 小龙虾 2026-06-21
 const Sfx = (function(){
   let ctx=null, master=null, enabled=true;
-  const VOL=0.32;  // 音效总音量(低于背景乐，点缀为主)
+  const VOL=0.6;  // 音效总音量(明显高于背景乐,反馈清晰)
 
   function ensure(){
     if(!ctx){
@@ -38,7 +38,7 @@ const Sfx = (function(){
     // 封存确认：稳重"咚"(盖章感)
     confirm(){ tone(330,0,0.16,'sine',0.55,180); tone(165,0,0.20,'sine',0.4,110); },
     // 按钮通用 click
-    click(){ tone(660,0,0.06,'square',0.18); },
+    click(){ tone(660,0,0.07,'square',0.4); },
     // 翻页/推进
     swipe(){ tone(520,0,0.12,'sine',0.3,780); },
     // 揭晓结果(按档位)
