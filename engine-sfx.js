@@ -198,8 +198,10 @@ const Sfx = (function(){
     isHoverEnabled(){ return hoverEnabled; },
     playHover(kind){
       if(!enabled||!hoverEnabled||!ensure()) return;
-      const now=ctx.currentTime;
-      if(now-lastHoverAt<0.035) return;  // 全局 35ms 冷却
+      // 节流用 performance.now()(墙钟毫秒)不用 ctx.currentTime——ctx 挂起时 currentTime 会冻结,
+      // 用它做节流会误判为“还在冷却”而拦截,导致静置后 hover 永远不响。
+      const now=(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
+      if(now-lastHoverAt<35) return;  // 全局 35ms 冷却
       lastHoverAt=now;
       // hover 沉闷短促(跟手不拖):低频 sine,按元素类型微差异。比 click 低一个八度,营造"闷"感
       const f={
