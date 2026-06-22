@@ -3,46 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>开始音效 · 试听挑选</title>
+<title>音效总表 · 逐个试听</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-  body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#f0ece2;color:#1a1714;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:40px 22px 60px;}
-  h1{font-size:22px;font-weight:800;letter-spacing:.04em;margin-bottom:6px;}
-  .sub{font-size:13.5px;color:#6b5d4a;margin-bottom:30px;text-align:center;line-height:1.7;}
-  .cards{width:100%;max-width:480px;display:flex;flex-direction:column;gap:16px;}
-  .card{border:1.5px solid #d6cfc0;border-radius:8px;background:#f5f1e8;padding:20px 22px;transition:all .2s ease;cursor:pointer;}
-  @media(hover:hover){.card:hover{border-color:#b8860b;transform:translateY(-2px);box-shadow:0 6px 18px rgba(184,134,11,.16);}}
-  .card:active{transform:scale(.98);}
-  .card .tag{font-size:12px;letter-spacing:.2em;color:#b8860b;font-weight:700;margin-bottom:7px;}
-  .card .nm{font-size:18px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
-  .card .nm .play{width:30px;height:30px;border-radius:50%;background:#b8860b;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 30px;}
-  .card .ds{font-size:13.5px;color:#4a443c;line-height:1.6;}
-  .footer{margin-top:34px;font-size:13px;color:#8c857a;text-align:center;line-height:1.8;max-width:420px;}
-  .footer b{color:#b8860b;}
+  body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#f0ece2;color:#1a1714;min-height:100vh;min-height:100dvh;padding:32px 18px 60px;}
+  .wrap{max-width:560px;margin:0 auto;}
+  h1{font-size:21px;font-weight:800;letter-spacing:.03em;margin-bottom:6px;text-align:center;}
+  .sub{font-size:13px;color:#6b5d4a;margin-bottom:8px;text-align:center;line-height:1.7;}
+  .note{font-size:12px;color:#9c5a2c;background:#f5ecd8;border:1px solid #e3d4b0;border-radius:7px;padding:10px 14px;margin:14px 0 26px;line-height:1.7;}
+  .grp{margin-bottom:26px;}
+  .grp-t{font-size:13px;font-weight:800;letter-spacing:.14em;color:#9c5a2c;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #d6cfc0;}
+  .row{display:flex;align-items:center;gap:12px;border:1.5px solid #d6cfc0;border-radius:8px;background:#f5f1e8;padding:13px 16px;margin-bottom:10px;cursor:pointer;transition:all .18s ease;}
+  @media(hover:hover){.row:hover{border-color:#9c5a2c;transform:translateX(3px);box-shadow:0 4px 14px rgba(156,90,44,.12);}}
+  .row:active{transform:scale(.98);}
+  .play{width:34px;height:34px;flex:0 0 34px;border-radius:50%;background:#9c5a2c;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .info{flex:1;min-width:0;}
+  .nm{font-size:15.5px;font-weight:700;margin-bottom:2px;}
+  .ds{font-size:12.5px;color:#6b5d4a;line-height:1.5;}
+  .tag{font-size:11px;color:#b8860b;font-weight:700;letter-spacing:.05em;}
+  .footer{margin-top:30px;font-size:12.5px;color:#8c857a;text-align:center;line-height:1.9;}
+  .footer b{color:#9c5a2c;}
 </style>
 </head>
 <body>
-  <h1>🎵 开始游戏音效 · 试听挑选</h1>
-  <div class="sub">点卡片试听 4 个版本，选一个告诉小龙虾<br>（当前线上用的是 A 版）</div>
-  <div class="cards" id="cards"></div>
-  <div class="footer">挑好后回复：<b>用 X 版</b>（A/B/C/D），<br>我就把它设为正式开始音效并重新部署。</div>
+<div class="wrap">
+  <h1>🎵 音效总表 · 逐个试听</h1>
+  <div class="sub">点任意一行试听。挑出要改的告诉小龙虾。</div>
+  <div class="note">📱 <b>手机提示</b>：先点一下屏幕任意处「解锁声音」，再试听。<br>iPhone 若拨了静音键（橙色），iOS17+ 已尝试用 playback 通道让它出声；若仍无声请关掉静音键。</div>
 
-<script src="engine-sfx.js?v=20260622f"></script>
+  <div id="list"></div>
+
+  <div class="footer">
+    挑出想调整的音效，告诉我：<b>哪个 + 怎么改</b><br>
+    （更沉/更脆/更短/更长/更轻/更响/换音色都行）
+  </div>
+</div>
+
+<script src="engine-sfx.js?v=20260622g"></script>
 <script>
-const VERSIONS=[
-  {key:'startA', tag:'VERSION A · 当前版', nm:'史诗号角', ds:'低频上扫铺底 + 中频号角琶音层层推进 + 顶点和弦齐鸣 + 高频闪耀。恢弘大气，最有"开场仪式感"。'},
-  {key:'startB', tag:'VERSION B', nm:'钟磬开悟', ds:'编钟 + 磬的东方禅意，纯净 sine 音色从容上行，空灵庄重。沉静有底蕴，像翻开一卷历史。'},
-  {key:'startC', tag:'VERSION C', nm:'资本脉动', ds:'低频脉冲三连击（像心跳/数据流）+ 上扬合成器扫频 + 电子和弦。科技感强，呼应"投资·科技时代"。'},
-  {key:'startD', tag:'VERSION D', nm:'命运叩门', ds:'三声低沉叩击（命运动机）+ 沉默后和弦戏剧绽放，小调转大调的释然。宿命感、戏剧张力强。'},
+// 分组定义。type: 'play'=Sfx.play(name); 'hover'=Sfx.playHover(kind)
+const GROUPS=[
+  { t:'🖱 鼠标划过 HOVER（沉闷·跟手·极短）', items:[
+    {type:'hover', k:'btn',  nm:'划过 · 主按钮',  ds:'偏低沉（392Hz），重要元素，足感'},
+    {type:'hover', k:'deal', nm:'划过 · 投资卡',  ds:'中低（440Hz），稳'},
+    {type:'hover', k:'opt',  nm:'划过 · 题目选项',ds:'最低沉（349Hz），柔和'},
+    {type:'hover', k:'icon', nm:'划过 · 图标钮',  ds:'略高（523Hz），轻巧'},
+  ]},
+  { t:'👆 操作音 OPERATION（清脆·明确）', items:[
+    {type:'play', k:'click',   nm:'点击 · 通用按钮', ds:'清脆双音叠（1046+1568Hz），脆生生'},
+    {type:'play', k:'pick',    nm:'点选 · 选项/投资', ds:'清亮灵动「叮」，选中确定感'},
+    {type:'play', k:'swipe',   nm:'翻页 · 推进/下一站',ds:'轻快上扬滑音，流动感'},
+    {type:'play', k:'confirm', nm:'押注 · 封存确认',  ds:'稳重「咚」，低频盖章落定感'},
+  ]},
+  { t:'🚀 开始游戏 START（4 候选 · 选一个当正式）', items:[
+    {type:'play', k:'startA', nm:'A · 史诗号角（现用）', ds:'低频上扫+号角琶音+顶点和弦，恢弘'},
+    {type:'play', k:'startB', nm:'B · 钟磬开悟',        ds:'编钟+磬，东方禅意，空灵庄重'},
+    {type:'play', k:'startC', nm:'C · 资本脉动',        ds:'电子脉冲+扫频，科技感'},
+    {type:'play', k:'startD', nm:'D · 命运叩门',        ds:'三声叩击+和弦绽放，戏剧宿命'},
+  ]},
+  { t:'⚖️ 揭晓结果 REVEAL（按命运档位）', items:[
+    {type:'play', k:'SS', nm:'SS · 传奇回报', ds:'欢庆五音上行+高频亮顶'},
+    {type:'play', k:'S',  nm:'S · 投资成功',  ds:'明亮三音'},
+    {type:'play', k:'A',  nm:'A · 勉强保本',  ds:'中性双音'},
+    {type:'play', k:'B',  nm:'B · 投资失利',  ds:'低沉下行'},
+    {type:'play', k:'C',  nm:'C · 血本无归',  ds:'失落顿挫下坠'},
+  ]},
+  { t:'🏁 结局 ENDING', items:[
+    {type:'play', k:'winBig',  nm:'大胜（高分结局）', ds:'六音欢腾琶音+顶音'},
+    {type:'play', k:'winMid',  nm:'中胜', ds:'四音上行'},
+    {type:'play', k:'neutral', nm:'平局', ds:'平和三音'},
+    {type:'play', k:'lose',    nm:'失败/出局', ds:'缓缓下坠'},
+  ]},
 ];
-const wrap=document.getElementById('cards');
-VERSIONS.forEach(v=>{
-  const d=document.createElement('div');
-  d.className='card';
-  d.innerHTML=`<div class="tag">${v.tag}</div><div class="nm"><span class="play">▶</span>${v.nm}</div><div class="ds">${v.ds}</div>`;
-  d.onclick=()=>{ try{ if(window.Sfx){ Sfx.unlock(); Sfx.play(v.key); } }catch(e){} };
-  wrap.appendChild(d);
+
+const list=document.getElementById('list');
+GROUPS.forEach(g=>{
+  const grp=document.createElement('div'); grp.className='grp';
+  grp.innerHTML=`<div class="grp-t">${g.t}</div>`;
+  g.items.forEach(it=>{
+    const row=document.createElement('div'); row.className='row';
+    row.innerHTML=`<div class="play">▶</div><div class="info"><div class="nm">${it.nm}</div><div class="ds">${it.ds}</div></div>`;
+    row.onclick=()=>{
+      try{
+        if(!window.Sfx) return;
+        Sfx.unlock();
+        if(it.type==='hover'){ Sfx.playHover(it.k); }
+        else { Sfx.play(it.k); }
+      }catch(e){}
+    };
+    grp.appendChild(row);
+  });
+  list.appendChild(grp);
 });
+// 整页首次触摸/点击即解锁
+['pointerdown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{try{window.Sfx&&Sfx.unlock();}catch(e){}},{once:true,passive:true}));
 </script>
 </body>
 </html>

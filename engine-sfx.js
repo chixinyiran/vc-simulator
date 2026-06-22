@@ -10,6 +10,8 @@ const Sfx = (function(){
   function ensure(){
     if(!ctx){
       try{
+        // iOS 17+:把 Web Audio 切到“播放”通道,让手机静音键打开时也能出声(默认 ambient 受静音键控制)
+        try{ if(navigator.audioSession){ navigator.audioSession.type='playback'; } }catch(e){}
         ctx=new (window.AudioContext||window.webkitAudioContext)();
         master=ctx.createGain(); master.gain.value=VOL;
         // 限幅压缩器：防止多层叠加剔波爆音,让音效更结实饱满(尤其震撼开场不糊)
@@ -85,14 +87,14 @@ const Sfx = (function(){
       tone(784,0.82,0.55,'sine',0.4); tone(1047,0.88,0.6,'triangle',0.35);
     },
 
-    // 选项点选：清脆短"叮"
-    pick(){ tone(880, 0, 0.10, 'triangle', 0.5); tone(1320,0.02,0.08,'sine',0.3); },
-    // 封存确认：稳重"咚"(盖章感)
-    confirm(){ tone(330,0,0.16,'sine',0.6,180); tone(165,0,0.20,'sine',0.45,110); },
-    // 按钮通用 click
-    click(){ tone(660,0,0.09,'square',0.5); tone(990,0.01,0.07,'sine',0.25); },
-    // 翻页/推进
-    swipe(){ tone(520,0,0.14,'triangle',0.5,820); tone(780,0.04,0.10,'sine',0.3); },
+    // 选项点选：清亮灵动"叮"(比 click 更高更跳跃,选中确定感)
+    pick(){ tone(988, 0, 0.07, 'triangle', 0.5); tone(1480,0.018,0.06,'sine',0.32); },
+    // 封存确认：稳重"咚"(低频盖章感,落定)
+    confirm(){ tone(330,0,0.16,'sine',0.6,175); tone(165,0,0.22,'sine',0.45,108); },
+    // 按钮通用 click：清脆双音叠(高频亮点,脆生生)
+    click(){ tone(1046,0,0.06,'triangle',0.5); tone(1568,0.012,0.05,'sine',0.3); },
+    // 翻页/推进：轻快上扬滑音
+    swipe(){ tone(560,0,0.11,'triangle',0.48,860); tone(840,0.035,0.08,'sine',0.28); },
     // 开始游戏/启程：明亮上扬三音琴音，有仪式感(专门给重要入场动作)
     // 开始游戏/启程：史诗级震撼开场——低频上扫铺底+号角琶音爆发+顶点和弦齐鸣+高频闪耀
     start(){
@@ -188,14 +190,15 @@ const Sfx = (function(){
       const now=ctx.currentTime;
       if(now-lastHoverAt<0.035) return;  // 全局 35ms 冷却
       lastHoverAt=now;
-      // 按元素类型差异化音色(适度时长+中高频,听感清晰不刺耳)
+      // hover 沉闷短促(跟手不拖):低频 sine,按元素类型微差异。比 click 低一个八度,营造"闷"感
       const f={
-        btn:    [1320,1760],   // 主按钮:双音叠(明亮有层次)
-        deal:   [1175],        // 投资卡:单音(干净)
-        opt:    [988],         // 题目选项:偏低(柔和)
-        icon:   [1568],        // 图标钮:高频点(清脆)
-      }[kind]||[1320];
-      const emit=()=>{ try{ f.forEach((freq,i)=>tone(freq, i*0.014, 0.11, 'sine', 1.0)); }catch(e){} };
+        btn:    [392],   // 主按钮:偏低沉(重要元素,足感)
+        deal:   [440],   // 投资卡:中低(稳)
+        opt:    [349],   // 题目选项:最低沉(柔和)
+        icon:   [523],   // 图标钮:略高一点(轻巧)
+      }[kind]||[392];
+      // 时长砍回 0.05s(跟手不拖沓),音量 0.85(沉闷但听得到)
+      const emit=()=>{ try{ f.forEach((freq,i)=>tone(freq, i*0.01, 0.05, 'sine', 0.85)); }catch(e){} };
       // 与 play() 同样的解锁兼底:ctx 还 suspended 时轮询等变 running 再发,否则 oscillator 被静音丢弃
       if(ctx.state==='suspended'){
         try{ ctx.resume(); }catch(e){}
