@@ -166,10 +166,10 @@
   .stat.track .bar i{background:#3a6b8c;}
   .stat.net .bar i{background:#7c5fa0;}
   .stat.luck .bar i{background:#4a8c5a;}
-  .stat.health .bar i{background:#c0504d;}
+  .stat.health .bar i{background:#cc6f7a;}
   /* 属性名也略带一点该属性色(低调,增强识别不抢镜) */
   .stat.aum .nm em{color:#b8860b;opacity:.8;} .stat.track .nm em{color:#3a6b8c;opacity:.8;}
-  .stat.net .nm em{color:#7c5fa0;opacity:.8;} .stat.luck .nm em{color:#4a8c5a;opacity:.8;} .stat.health .nm em{color:#c0504d;opacity:.8;}
+  .stat.net .nm em{color:#7c5fa0;opacity:.8;} .stat.luck .nm em{color:#4a8c5a;opacity:.8;} .stat.health .nm em{color:#cc6f7a;opacity:.8;}
   .delta{font-size:10.5px;font-weight:700;margin-left:4px;animation:pop .5s ease;}
   .delta.up{color:var(--good);} .delta.down{color:var(--bad);}
   @keyframes pop{0%{opacity:0;transform:translateY(3px)}100%{opacity:1}}
