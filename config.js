@@ -4,10 +4,10 @@
 
 const CONFIG = {
   // 玩家初始属性
-  start: { aum:100, track:0, network:20, health:100, luck:50 },
+  start: { aum:100, track:100, network:100, health:100, luck:50 },
 
   // 属性条最大值（用于UI进度条归一化，不是硬上限）
-  statMax: { aum:1300, track:480, network:350, luck:100, health:100 },
+  statMax: { aum:1000, track:580, network:430, luck:100, health:100 },
 
   // 5档结果对应的属性变动倍率 + 显示样式
   outcomeTiers: {
@@ -58,15 +58,17 @@ const CONFIG = {
 
   // 健康死亡相关
   healthDeath: {
-    earlyOutTrackCap: 260,   // 健康死亡且业绩低于此 → 触发"健康透支"特殊结局
+    earlyOutTrackCap: 360,   // 健康死亡且业绩低于此 → 触发"健康透支"特殊结局
   },
 
   // === 综合评分（五属性归一化构成1000分，2026-06-21重设计）===
   // 每项得分 = min(1,(当前值/scoreTarget)^scoreGamma) * scoreWeight；累加满1000
-  scoreTarget: { track:480, aum:1300, network:350, luck:85, health:68 },
+  scoreTarget: { track:580, aum:1000, network:430, luck:85, health:68 },
   scoreWeight: { track:340, aum:240, network:150, luck:110, health:160 }, // 合计1000
   scoreGamma: 0.83,        // 平滑曲线指数(未达目标也能拿大部分分)
   deadPenalty: 0.6,        // 健康归零时总分打折(唯一权威值,calcScore 引用)
+  // 结局音效门槛(跟 endingTiers 对齐:winBig=封神/一线传奇, winMid=资深/稳进, neutral=过山车, 以下lose)
+  scoreTiersForSfx: { big: 665, mid: 415, neutral: 335 },
 
   // 小额参投(资本不够时兜底)回报系数
   smallTicketFactor: 0.5,

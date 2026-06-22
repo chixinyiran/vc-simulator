@@ -563,7 +563,7 @@ function showEnding(healthDead){
   stopMusic();
   const score=calcScore();
   const meta=pickEnding(score,healthDead);
-  if(window.Sfx){ const _s=score; setTimeout(()=>{ if(healthDead)Sfx.play('lose'); else if(_s>=750)Sfx.play('winBig'); else if(_s>=550)Sfx.play('winMid'); else if(_s>=450)Sfx.play('neutral'); else Sfx.play('lose'); }, 350); }
+  if(window.Sfx){ const _s=score; setTimeout(()=>{ if(healthDead)Sfx.play('lose'); else if(_s>=CONFIG.scoreTiersForSfx.big)Sfx.play('winBig'); else if(_s>=CONFIG.scoreTiersForSfx.mid)Sfx.play('winMid'); else if(_s>=CONFIG.scoreTiersForSfx.neutral)Sfx.play('neutral'); else Sfx.play('lose'); }, 350); }
   $game.classList.add('hidden');
   const el=$ending;el.classList.remove('hidden');
   const order={SS:5,S:4,A:3,B:2,C:1};
