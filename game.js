@@ -223,6 +223,15 @@ function applyTheme(t){
   r.setProperty('--card', t.paper);
   r.setProperty('--accent', t.accent||'#8a5a3a');
   // accent 用于强调(进度条高亮/卡片描边/音乐图标等)，随时代变化
+  // 直接给 html/body 设背景色(iOS Safari overscroll 橡皮筋回弹、地址栏区域露出的是 html 背景,不设会露白底)
+  try{
+    document.documentElement.style.backgroundColor=t.paper;
+    document.body.style.backgroundColor=t.paper;
+    // 同步移动端状态栏颜色(theme-color)
+    var mc=document.querySelector('meta[name="theme-color"]');
+    if(!mc){ mc=document.createElement('meta'); mc.name='theme-color'; document.head.appendChild(mc); }
+    mc.content=t.paper;
+  }catch(e){}
 }
 function applyPeriodTheme(idx){
   const p=GAME.periods[idx];
