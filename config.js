@@ -132,6 +132,8 @@ const CONFIG = {
     choicePending: '⏳ 押注后不会立刻揭晓，本时代结束时才知道命运',
     // 项目锁定
     lockNoAum: '资本不足',
+    lockNoTrack: '声望不足',
+    lockNoHealth: '精力不足',
     lockSmall: '仅可小额参投',
     // 封存页
     stagedTitle: '已下注 · 封存待揭晓',

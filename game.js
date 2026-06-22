@@ -339,37 +339,43 @@ function trendLabel(t){
 function showChoices(preselectIdx){
   if(window.Sfx)Sfx.play('swipe');
   const r=GAME.periods[pIdx].rounds[rIdx]; selDeal=null;
-  // 健康门槛锁定(确定性:同站多次渲染结果一致). 实际门槛=minHealth - (运气-50)/50*15 - 站内确定扰动(0~10)
-  // 运气高→门槛降→更易投得起; 扰动让每局/每站锁的项目不同,避免人人必锁同一个
-  let healthLock=r.deals.map((d,i)=>{
-    if(!d.minHealth) return false;
-    // 确定性扰动:用 pIdx*100+rIdx*10+i 做种子,取0~10
-    const seed=(pIdx*131+rIdx*17+i*7)%11;
-    const luckRelief=((state.luck-50)/50)*15;
-    const realTh=d.minHealth - luckRelief - seed;
-    return state.health < realTh;  // 健康不足→锁
+  // ===== 统一门槛系统 gate:{type:'aum'|'track'|'health', min} 每项最多1个 =====
+  // 资本/业绩=硬门槛(属性<min直接锁); 健康=软门槛(运气降门槛+随机扰动,精力波动感)
+  // gateLock[i]: 0=不锁 / 'aum' / 'track' / 'health'(锁定原因)
+  let gateLock=r.deals.map((d,i)=>{
+    const g=d.gate; if(!g) return 0;
+    if(g.type==='aum')   return state.aum   < g.min ? 'aum'   : 0;
+    if(g.type==='track') return state.track < g.min ? 'track' : 0;
+    if(g.type==='health'){
+      const seed=(pIdx*131+rIdx*17+i*7)%11;
+      const relief=((state.luck-50)/50)*15;
+      return state.health < (g.min - relief - seed) ? 'health' : 0;
+    }
+    return 0;
   });
-  // 防死局铁律1：所有项目都被健康锁 → 强制解锁健康门槛最低的1个(精力再差也总能投点什么)
-  if(healthLock.every(x=>x)){
-    let minH=1e9, unlockIdx=0;
-    r.deals.forEach((d,i)=>{ const mh=d.minHealth||0; if(mh<minH){minH=mh;unlockIdx=i;} });
-    healthLock[unlockIdx]=false;
+  // 防死局铁律1：全锁 → 强制解锁"门槛最低"的1个(总能投点什么)
+  if(gateLock.every(x=>x)){
+    let minG=1e9, unlockIdx=0;
+    r.deals.forEach((d,i)=>{ const m=(d.gate&&d.gate.min)||0; if(m<minG){minG=m;unlockIdx=i;} });
+    gateLock[unlockIdx]=0;
   }
-  // 防死局铁律2：在"未被健康锁"的项目里,看有没有资本投得起的;都投不起→把"未健康锁且资本门槛最低"的标记为可小额参投
-  const anyAfford = r.deals.some((d,i)=>state.aum>=d.minAUM && !healthLock[i]);
+  // 防死局铁律2：未锁项里有没有(无资本门槛或资本够的);都不行→把"未锁且无资本门槛/门槛最低"的标记可小额参投
+  // 小额参投只对"资本门槛"生效(业绩/健康门槛不能凑合,靠防死局保证有别的)
+  const anyPlayable = r.deals.some((d,i)=>!gateLock[i]);
   let smallTicketIdx = -1;
-  if(!anyAfford){
-    let minM=1e9;
-    r.deals.forEach((d,i)=>{ if(!healthLock[i] && d.minAUM<minM){minM=d.minAUM;smallTicketIdx=i;} });
-    // 极端兜底:万一(理论不会)没选到,强制第一个未锁项
-    if(smallTicketIdx<0){ smallTicketIdx=healthLock.findIndex(x=>!x); if(smallTicketIdx<0)smallTicketIdx=0; }
+  if(!anyPlayable){
+    // (理论上铁律1已保证至少1个未锁)兜底:解最低门槛
+    let minG=1e9; r.deals.forEach((d,i)=>{const m=(d.gate&&d.gate.min)||0;if(m<minG){minG=m;smallTicketIdx=i;}});
+    if(smallTicketIdx<0)smallTicketIdx=0;
+    gateLock[smallTicketIdx]=0;
   }
   let cards=r.deals.map((d,i)=>{
     const [ti,tl]=trendLabel(d.trend);
+    const lk = gateLock[i];
     const small = (i===smallTicketIdx);
-    const hLock = healthLock[i];
-    const afford = (state.aum>=d.minAUM && !hLock) || (small && !hLock);
-    const lockNote = hLock ? `<div class="lock-note" style="color:var(--bad)">⚡ 精力不足（需健康 ${d.minHealth}+）</div>` : (!afford ? `<div class="lock-note">💰 资本不足（需 ${d.minAUM}M）</div>` : (small?`<div class="lock-note" style="color:var(--warn)">${CONFIG.text.lockSmall}</div>`:''));
+    const afford = !lk;
+    const lockTxt = lk==='aum'?(CONFIG.text.lockNoAum||'资本不足') : lk==='track'?(CONFIG.text.lockNoTrack||'声望不足') : lk==='health'?(CONFIG.text.lockNoHealth||'精力不足') : '';
+    const lockNote = lk ? `<div class="lock-note" style="color:var(--bad)">${lockTxt}</div>` : (small?`<div class="lock-note" style="color:var(--warn)">${CONFIG.text.lockSmall}</div>`:'');
     return `
     <div class="deal ${afford?'':'locked'}" data-i="${i}" ${afford?`onclick="pickDeal(${i})"`:''}>
       ${afford&&!small?'<div class="pick-tag">✓</div>':lockNote}
@@ -380,7 +386,7 @@ function showChoices(preselectIdx){
         <div class="mi"><div class="k">轮次</div><div class="v">${d.round}</div></div>
         <div class="mi"><div class="k">估值</div><div class="v">${d.val}</div></div>
         <div class="mi"><div class="k">需投入</div><div class="v">${d.amt?d.amt+'M':'——'}</div></div>
-        <div class="mi"><div class="k">门槛AUM</div><div class="v">${d.minAUM||'无'}</div></div>
+        <div class="mi"><div class="k">门槛</div><div class="v">${d.gate?(d.gate.type==='aum'?'资本≥'+d.gate.min:d.gate.type==='track'?'业绩≥'+d.gate.min:'健康≥'+d.gate.min):'无'}</div></div>
       </div>
       <div class="trend ${d.trend}">${ti} ${tl}</div>
     </div>`;}).join('');

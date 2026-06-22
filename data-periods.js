@@ -52,7 +52,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "4亿",
               "amt": 8,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -60,7 +59,8 @@ const DATA_PERIODS = {
                 "track": 60,
                 "net": 24
               },
-              "why": "泡沫顶点的门户，估值已严重透支"
+              "why": "泡沫顶点的门户，估值已严重透支",
+              "gate": null
             },
             {
               "tag": "通信",
@@ -69,7 +69,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.5亿",
               "amt": 8,
-              "minAUM": 0,
               "trend": "down",
               "base": 0.2,
               "w": {
@@ -77,7 +76,8 @@ const DATA_PERIODS = {
                 "track": 54,
                 "net": 16
               },
-              "why": "手机正取代BP机，赛道夕阳"
+              "why": "手机正取代BP机，赛道夕阳",
+              "gate": null
             },
             {
               "tag": "电商雏形",
@@ -86,7 +86,6 @@ const DATA_PERIODS = {
               "round": "天使",
               "val": "3000万",
               "amt": 8,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -94,7 +93,8 @@ const DATA_PERIODS = {
                 "track": 54,
                 "net": 16
               },
-              "why": "网购习惯未成形，但方向是未来"
+              "why": "网购习惯未成形，但方向是未来",
+              "gate": null
             }
           ]
         },
@@ -111,7 +111,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "6000万",
               "amt": 8,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -119,7 +118,8 @@ const DATA_PERIODS = {
                 "track": 60,
                 "net": 24
               },
-              "why": "网游是寒冬里现金流最猛的生意"
+              "why": "网游是寒冬里现金流最猛的生意",
+              "gate": null
             },
             {
               "tag": "外贸B2B",
@@ -128,7 +128,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "2亿",
               "amt": 8,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -136,7 +135,8 @@ const DATA_PERIODS = {
                 "track": 54,
                 "net": 16
               },
-              "why": "吃入世红利，稳但慢"
+              "why": "吃入世红利，稳但慢",
+              "gate": null
             },
             {
               "tag": "IT硬件",
@@ -145,7 +145,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.2亿",
               "amt": 8,
-              "minAUM": 0,
               "trend": "down",
               "base": 0.2,
               "w": {
@@ -153,7 +152,8 @@ const DATA_PERIODS = {
                 "track": 66,
                 "net": 18
               },
-              "why": "重资产低毛利，硬碰国际巨头"
+              "why": "重资产低毛利，硬碰国际巨头",
+              "gate": null
             }
           ]
         },
@@ -170,7 +170,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1亿",
               "amt": 8,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -178,7 +177,8 @@ const DATA_PERIODS = {
                 "track": 60,
                 "net": 24
               },
-              "why": "搜索是流量的源头，最强入口"
+              "why": "搜索是流量的源头，最强入口",
+              "gate": null
             },
             {
               "tag": "在线支付",
@@ -187,7 +187,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "8000万",
               "amt": 10,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -195,7 +194,8 @@ const DATA_PERIODS = {
                 "track": 70,
                 "net": 20
               },
-              "why": "抓住电商最关键的一环——信任，基础设施级"
+              "why": "抓住电商最关键的一环——信任，基础设施级",
+              "gate": null
             },
             {
               "tag": "游戏",
@@ -204,7 +204,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "5亿",
               "amt": 8,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -212,7 +211,8 @@ const DATA_PERIODS = {
                 "track": 60,
                 "net": 24
               },
-              "why": "现象级游戏现金流爆棚，但依赖单款"
+              "why": "现象级游戏现金流爆棚，但依赖单款",
+              "gate": null
             },
             {
               "tag": "旅游",
@@ -221,7 +221,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "3亿",
               "amt": 6,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.8,
               "w": {
@@ -229,7 +228,8 @@ const DATA_PERIODS = {
                 "track": 41,
                 "net": 12
               },
-              "why": "非典后报复性出行，逆势抄底"
+              "why": "非典后报复性出行，逆势抄底",
+              "gate": null
             }
           ]
         },
@@ -246,7 +246,6 @@ const DATA_PERIODS = {
               "round": "天使",
               "val": "4000万",
               "amt": 8,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -254,7 +253,8 @@ const DATA_PERIODS = {
                 "track": 60,
                 "net": 24
               },
-              "why": "流量生意，慢而韧，长坡厚雪"
+              "why": "流量生意，慢而韧，长坡厚雪",
+              "gate": null
             },
             {
               "tag": "网络营销",
@@ -263,7 +263,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1亿",
               "amt": 10,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -271,7 +270,8 @@ const DATA_PERIODS = {
                 "track": 70,
                 "net": 20
               },
-              "why": "广告是门户复苏的现金奶牛"
+              "why": "广告是门户复苏的现金奶牛",
+              "gate": null
             },
             {
               "tag": "短信增值",
@@ -280,7 +280,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "8000万",
               "amt": 6,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -288,7 +287,8 @@ const DATA_PERIODS = {
                 "track": 41,
                 "net": 12
               },
-              "why": "命门攥在运营商手里，政策一变就死"
+              "why": "命门攥在运营商手里，政策一变就死",
+              "gate": null
             }
           ]
         }
@@ -324,7 +324,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.5亿",
               "amt": 12,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -332,7 +331,8 @@ const DATA_PERIODS = {
                 "track": 100,
                 "net": 40
               },
-              "why": "押中「人的连接」，社交是皇冠明珠"
+              "why": "押中「人的连接」，社交是皇冠明珠",
+              "gate": null
             },
             {
               "tag": "视频",
@@ -341,7 +341,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "2亿",
               "amt": 10,
-              "minAUM": 30,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -349,7 +348,8 @@ const DATA_PERIODS = {
                 "track": 75,
                 "net": 30
               },
-              "why": "带宽+版权双杀，烧钱无底洞"
+              "why": "带宽+版权双杀，烧钱无底洞",
+              "gate": null
             },
             {
               "tag": "工具",
@@ -358,7 +358,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1亿",
               "amt": 14,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -366,7 +365,8 @@ const DATA_PERIODS = {
                 "track": 130,
                 "net": 52
               },
-              "why": "免费打法是统治市场的核武器"
+              "why": "免费打法是统治市场的核武器",
+              "gate": null
             }
           ]
         },
@@ -383,7 +383,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "4亿",
               "amt": 14,
-              "minAUM": 30,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -392,7 +391,10 @@ const DATA_PERIODS = {
                 "net": 34
               },
               "why": "自营越重越深的护城河",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 60
+              }
             },
             {
               "tag": "社区",
@@ -401,7 +403,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "3亿",
               "amt": 12,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -409,7 +410,8 @@ const DATA_PERIODS = {
                 "track": 100,
                 "net": 40
               },
-              "why": "一代人的青春记忆，巨头必抢"
+              "why": "一代人的青春记忆，巨头必抢",
+              "gate": null
             },
             {
               "tag": "娱乐营销",
@@ -418,7 +420,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.5亿",
               "amt": 10,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -426,7 +427,8 @@ const DATA_PERIODS = {
                 "track": 75,
                 "net": 30
               },
-              "why": "爆款难复制，热度过气就凉"
+              "why": "爆款难复制，热度过气就凉",
+              "gate": null
             }
           ]
         },
@@ -443,7 +445,6 @@ const DATA_PERIODS = {
               "round": "天使",
               "val": "3000万",
               "amt": 10,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.8,
               "w": {
@@ -451,7 +452,8 @@ const DATA_PERIODS = {
                 "track": 75,
                 "net": 30
               },
-              "why": "方向对，但早了三年"
+              "why": "方向对，但早了三年",
+              "gate": null
             },
             {
               "tag": "电商",
@@ -460,7 +462,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.5亿",
               "amt": 12,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -468,7 +469,8 @@ const DATA_PERIODS = {
                 "track": 90,
                 "net": 26
               },
-              "why": "精准击中消费心理"
+              "why": "精准击中消费心理",
+              "gate": null
             },
             {
               "tag": "券商",
@@ -477,7 +479,6 @@ const DATA_PERIODS = {
               "round": "Pre-IPO",
               "val": "50亿",
               "amt": 14,
-              "minAUM": 60,
               "trend": "hot",
               "base": 0.2,
               "w": {
@@ -486,7 +487,10 @@ const DATA_PERIODS = {
                 "net": 34
               },
               "why": "A股6000点顶峰追高，泡沫巨大",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 60
+              }
             }
           ]
         },
@@ -503,7 +507,6 @@ const DATA_PERIODS = {
               "round": "Pre-IPO",
               "val": "30亿",
               "amt": 14,
-              "minAUM": 60,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -511,7 +514,11 @@ const DATA_PERIODS = {
                 "track": 143,
                 "net": 39
               },
-              "why": "创业板红利，确定性高的退出"
+              "why": "创业板红利，确定性高的退出",
+              "gate": {
+                "type": "aum",
+                "min": 40
+              }
             },
             {
               "tag": "电商",
@@ -520,7 +527,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "5亿",
               "amt": 12,
-              "minAUM": 30,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -529,7 +535,10 @@ const DATA_PERIODS = {
                 "net": 26
               },
               "why": "电商渗透加速，模式已验证",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 60
+              }
             },
             {
               "tag": "网游",
@@ -538,7 +547,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "8亿",
               "amt": 10,
-              "minAUM": 30,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -546,7 +554,8 @@ const DATA_PERIODS = {
                 "track": 75,
                 "net": 30
               },
-              "why": "单款依赖重，出海未卜"
+              "why": "单款依赖重，出海未卜",
+              "gate": null
             }
           ]
         }
@@ -582,7 +591,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "2.6亿",
               "amt": 22,
-              "minAUM": 30,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -591,7 +599,10 @@ const DATA_PERIODS = {
                 "net": 62
               },
               "why": "押中「互联网+硬件」范式革命",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 55
+              }
             },
             {
               "tag": "移动社交",
@@ -600,7 +611,6 @@ const DATA_PERIODS = {
               "round": "天使",
               "val": "4000万",
               "amt": 14,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -608,7 +618,8 @@ const DATA_PERIODS = {
                 "track": 120,
                 "net": 48
               },
-              "why": "巨头腹地，独立App难活"
+              "why": "巨头腹地，独立App难活",
+              "gate": null
             },
             {
               "tag": "O2O",
@@ -617,7 +628,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.5亿",
               "amt": 18,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -625,7 +635,8 @@ const DATA_PERIODS = {
                 "track": 160,
                 "net": 64
               },
-              "why": "补贴堆的用户不忠诚，模型不成立"
+              "why": "补贴堆的用户不忠诚，模型不成立",
+              "gate": null
             }
           ]
         },
@@ -642,7 +653,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "5亿",
               "amt": 22,
-              "minAUM": 40,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -650,7 +660,11 @@ const DATA_PERIODS = {
                 "track": 208,
                 "net": 83
               },
-              "why": "移动时代最强超级入口，船票中的船票"
+              "why": "移动时代最强超级入口，船票中的船票",
+              "gate": {
+                "type": "aum",
+                "min": 40
+              }
             },
             {
               "tag": "知识社区",
@@ -659,7 +673,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "1.8亿",
               "amt": 18,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -667,7 +680,8 @@ const DATA_PERIODS = {
                 "track": 160,
                 "net": 64
               },
-              "why": "高质量内容的长期复利"
+              "why": "高质量内容的长期复利",
+              "gate": null
             },
             {
               "tag": "团购",
@@ -676,7 +690,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "15亿",
               "amt": 18,
-              "minAUM": 60,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -685,7 +698,10 @@ const DATA_PERIODS = {
                 "net": 42
               },
               "why": "团购泡沫顶点接盘，红海双杀",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 55
+              }
             },
             {
               "tag": "企业服务",
@@ -694,7 +710,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "8000万",
               "amt": 14,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.8,
               "w": {
@@ -702,7 +717,11 @@ const DATA_PERIODS = {
                 "track": 108,
                 "net": 31
               },
-              "why": "中国SaaS春天来得晚，熬"
+              "why": "中国SaaS春天来得晚，熬",
+              "gate": {
+                "type": "aum",
+                "min": 60
+              }
             }
           ]
         },
@@ -719,7 +738,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "5亿",
               "amt": 22,
-              "minAUM": 40,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -727,7 +745,11 @@ const DATA_PERIODS = {
                 "track": 208,
                 "net": 83
               },
-              "why": "万亿出行赛道，胜负看资本耐力"
+              "why": "万亿出行赛道，胜负看资本耐力",
+              "gate": {
+                "type": "aum",
+                "min": 40
+              }
             },
             {
               "tag": "移动电商",
@@ -736,7 +758,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "6亿",
               "amt": 18,
-              "minAUM": 30,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -745,7 +766,10 @@ const DATA_PERIODS = {
                 "net": 42
               },
               "why": "消费向移动端迁徙的大趋势",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 55
+              }
             },
             {
               "tag": "互金",
@@ -754,7 +778,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "3亿",
               "amt": 18,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -762,7 +785,8 @@ const DATA_PERIODS = {
                 "track": 144,
                 "net": 42
               },
-              "why": "监管空白+资金池，暴雷隐患极大"
+              "why": "监管空白+资金池，暴雷隐患极大",
+              "gate": null
             },
             {
               "tag": "文娱",
@@ -771,7 +795,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "8亿",
               "amt": 14,
-              "minAUM": 30,
               "trend": "up",
               "base": 0.8,
               "w": {
@@ -779,7 +802,11 @@ const DATA_PERIODS = {
                 "track": 120,
                 "net": 48
               },
-              "why": "内容规模即护城河，但长期亏损"
+              "why": "内容规模即护城河，但长期亏损",
+              "gate": {
+                "type": "aum",
+                "min": 30
+              }
             }
           ]
         },
@@ -796,7 +823,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "4亿",
               "amt": 22,
-              "minAUM": 30,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -805,7 +831,10 @@ const DATA_PERIODS = {
                 "net": 83
               },
               "why": "看不起的「土味」，藏着真实流量金矿",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 55
+              }
             },
             {
               "tag": "硬科技",
@@ -814,7 +843,6 @@ const DATA_PERIODS = {
               "round": "天使",
               "val": "1.5亿",
               "amt": 18,
-              "minAUM": 0,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -822,7 +850,8 @@ const DATA_PERIODS = {
                 "track": 176,
                 "net": 48
               },
-              "why": "逆人群投硬科技，需要定力"
+              "why": "逆人群投硬科技，需要定力",
+              "gate": null
             },
             {
               "tag": "消费",
@@ -831,7 +860,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "3亿",
               "amt": 14,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -839,7 +867,11 @@ const DATA_PERIODS = {
                 "track": 108,
                 "net": 31
               },
-              "why": "生鲜损耗高，最考验运营"
+              "why": "生鲜损耗高，最考验运营",
+              "gate": {
+                "type": "aum",
+                "min": 60
+              }
             },
             {
               "tag": "O2O",
@@ -848,7 +880,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "2亿",
               "amt": 18,
-              "minAUM": 0,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -856,7 +887,8 @@ const DATA_PERIODS = {
                 "track": 160,
                 "net": 64
               },
-              "why": "纯补贴获客，无复购无壁垒"
+              "why": "纯补贴获客，无复购无壁垒",
+              "gate": null
             }
           ]
         }
@@ -892,7 +924,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "5亿",
               "amt": 30,
-              "minAUM": 60,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -901,7 +932,10 @@ const DATA_PERIODS = {
                 "net": 86
               },
               "why": "押注AI第一波，「CV四小龙」",
-              "minHealth": 55
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "知识付费",
@@ -910,7 +944,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "6亿",
               "amt": 20,
-              "minAUM": 30,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -918,7 +951,8 @@ const DATA_PERIODS = {
                 "track": 165,
                 "net": 66
               },
-              "why": "热潮来得快去得也快"
+              "why": "热潮来得快去得也快",
+              "gate": null
             },
             {
               "tag": "共享经济",
@@ -927,7 +961,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "30亿",
               "amt": 25,
-              "minAUM": 80,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -935,7 +968,11 @@ const DATA_PERIODS = {
                 "track": 220,
                 "net": 88
               },
-              "why": "重资产+无序竞争，资本豪赌的悲剧"
+              "why": "重资产+无序竞争，资本豪赌的悲剧",
+              "gate": {
+                "type": "aum",
+                "min": 80
+              }
             }
           ]
         },
@@ -952,7 +989,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "8亿",
               "amt": 25,
-              "minAUM": 80,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -960,7 +996,11 @@ const DATA_PERIODS = {
                 "track": 242,
                 "net": 66
               },
-              "why": "难而正确，回报往往最丰厚"
+              "why": "难而正确，回报往往最丰厚",
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "社交电商",
@@ -969,7 +1009,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "100亿",
               "amt": 30,
-              "minAUM": 100,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -978,7 +1017,10 @@ const DATA_PERIODS = {
                 "net": 114
               },
               "why": "社交裂变+下沉的恐怖威力",
-              "minHealth": 50
+              "gate": {
+                "type": "health",
+                "min": 65
+              }
             },
             {
               "tag": "新零售",
@@ -987,7 +1029,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "50亿",
               "amt": 25,
-              "minAUM": 80,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -996,7 +1037,10 @@ const DATA_PERIODS = {
                 "net": 57
               },
               "why": "「重」不一定坏，关键看效率",
-              "minHealth": 55
+              "gate": {
+                "type": "health",
+                "min": 65
+              }
             },
             {
               "tag": "教育",
@@ -1005,7 +1049,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "20亿",
               "amt": 20,
-              "minAUM": 60,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -1013,7 +1056,8 @@ const DATA_PERIODS = {
                 "track": 165,
                 "net": 66
               },
-              "why": "获客成本失控，政策风险悬顶"
+              "why": "获客成本失控，政策风险悬顶",
+              "gate": null
             }
           ]
         },
@@ -1030,7 +1074,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "40亿",
               "amt": 30,
-              "minAUM": 100,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -1039,7 +1082,10 @@ const DATA_PERIODS = {
                 "net": 86
               },
               "why": "国产芯片成国之重器",
-              "minHealth": 50
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "生物医药",
@@ -1048,7 +1094,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "50亿",
               "amt": 25,
-              "minAUM": 100,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -1056,7 +1101,11 @@ const DATA_PERIODS = {
                 "track": 242,
                 "net": 66
               },
-              "why": "在最需要的时候投到最需要的东西"
+              "why": "在最需要的时候投到最需要的东西",
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "在线办公",
@@ -1065,7 +1114,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "80亿",
               "amt": 25,
-              "minAUM": 100,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -1074,7 +1122,7 @@ const DATA_PERIODS = {
                 "net": 57
               },
               "why": "远程办公成新常态",
-              "minHealth": 60
+              "gate": null
             },
             {
               "tag": "直播电商",
@@ -1083,7 +1131,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "60亿",
               "amt": 20,
-              "minAUM": 80,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -1091,7 +1138,11 @@ const DATA_PERIODS = {
                 "track": 165,
                 "net": 66
               },
-              "why": "过度依赖头部主播，监管趋严"
+              "why": "过度依赖头部主播，监管趋严",
+              "gate": {
+                "type": "aum",
+                "min": 80
+              }
             }
           ]
         },
@@ -1108,7 +1159,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "60亿",
               "amt": 30,
-              "minAUM": 120,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -1117,7 +1167,10 @@ const DATA_PERIODS = {
                 "net": 86
               },
               "why": "「卡脖子」环节获举国之力支持",
-              "minHealth": 60
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "新能源",
@@ -1126,7 +1179,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "100亿",
               "amt": 25,
-              "minAUM": 120,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -1135,7 +1187,10 @@ const DATA_PERIODS = {
                 "net": 66
               },
               "why": "双碳目标确立，最确定的国家级风口",
-              "minHealth": 50
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "新能源车",
@@ -1144,7 +1199,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "200亿",
               "amt": 25,
-              "minAUM": 150,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -1152,7 +1206,11 @@ const DATA_PERIODS = {
                 "track": 242,
                 "net": 66
               },
-              "why": "赛道空前拥挤，烧钱巨大"
+              "why": "赛道空前拥挤，烧钱巨大",
+              "gate": {
+                "type": "track",
+                "min": 800
+              }
             },
             {
               "tag": "在线教育",
@@ -1161,7 +1219,6 @@ const DATA_PERIODS = {
               "round": "D轮",
               "val": "300亿",
               "amt": 20,
-              "minAUM": 120,
               "trend": "down",
               "base": 0.3,
               "w": {
@@ -1169,7 +1226,8 @@ const DATA_PERIODS = {
                 "track": 165,
                 "net": 66
               },
-              "why": "「双减」落地，政策风险致命"
+              "why": "「双减」落地，政策风险致命",
+              "gate": null
             }
           ]
         }
@@ -1205,7 +1263,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "150亿",
               "amt": 38,
-              "minAUM": 150,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -1214,7 +1271,10 @@ const DATA_PERIODS = {
                 "net": 101
               },
               "why": "重仓超级浪潮，虽不知泡沫何时破",
-              "minHealth": 65
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "AI应用",
@@ -1223,7 +1283,6 @@ const DATA_PERIODS = {
               "round": "天使",
               "val": "5亿",
               "amt": 32,
-              "minAUM": 60,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -1231,7 +1290,11 @@ const DATA_PERIODS = {
                 "track": 286,
                 "net": 78
               },
-              "why": "既要星辰大海，也要脚踏实地"
+              "why": "既要星辰大海，也要脚踏实地",
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "算力",
@@ -1240,7 +1303,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "80亿",
               "amt": 26,
-              "minAUM": 120,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -1248,7 +1310,8 @@ const DATA_PERIODS = {
                 "track": 215,
                 "net": 59
               },
-              "why": "「卖铲子」逻辑清晰，但供给不确定"
+              "why": "「卖铲子」逻辑清晰，但供给不确定",
+              "gate": null
             }
           ]
         },
@@ -1265,7 +1328,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "40亿",
               "amt": 32,
-              "minAUM": 100,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -1273,7 +1335,11 @@ const DATA_PERIODS = {
                 "track": 286,
                 "net": 78
               },
-              "why": "在AI泡沫中，「能赚钱」最稀缺"
+              "why": "在AI泡沫中，「能赚钱」最稀缺",
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "出海",
@@ -1282,7 +1348,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "120亿",
               "amt": 38,
-              "minAUM": 120,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -1291,7 +1356,7 @@ const DATA_PERIODS = {
                 "net": 88
               },
               "why": "中国供应链+全球化的组合拳",
-              "minHealth": 65
+              "gate": null
             },
             {
               "tag": "机器人",
@@ -1300,7 +1365,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "60亿",
               "amt": 26,
-              "minAUM": 100,
               "trend": "hot",
               "base": 0.5,
               "w": {
@@ -1308,7 +1372,11 @@ const DATA_PERIODS = {
                 "track": 215,
                 "net": 59
               },
-              "why": "从demo到量产鸿沟巨大"
+              "why": "从demo到量产鸿沟巨大",
+              "gate": {
+                "type": "aum",
+                "min": 100
+              }
             }
           ]
         },
@@ -1325,7 +1393,6 @@ const DATA_PERIODS = {
               "round": "B轮",
               "val": "100亿",
               "amt": 38,
-              "minAUM": 120,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -1334,7 +1401,10 @@ const DATA_PERIODS = {
                 "net": 101
               },
               "why": "站上AI Agent浪潮之巅",
-              "minHealth": 70
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "具身智能",
@@ -1343,7 +1413,6 @@ const DATA_PERIODS = {
               "round": "C轮",
               "val": "200亿",
               "amt": 32,
-              "minAUM": 150,
               "trend": "hot",
               "base": 0.35,
               "w": {
@@ -1351,7 +1420,11 @@ const DATA_PERIODS = {
                 "track": 286,
                 "net": 78
               },
-              "why": "资本最追捧，量产盈利仍是问号"
+              "why": "资本最追捧，量产盈利仍是问号",
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "自动驾驶",
@@ -1360,7 +1433,6 @@ const DATA_PERIODS = {
               "round": "D轮",
               "val": "300亿",
               "amt": 26,
-              "minAUM": 150,
               "trend": "up",
               "base": 0.8,
               "w": {
@@ -1368,7 +1440,8 @@ const DATA_PERIODS = {
                 "track": 215,
                 "net": 59
               },
-              "why": "摸到商业化门槛，但黎明前最熬人"
+              "why": "摸到商业化门槛，但黎明前最熬人",
+              "gate": null
             }
           ]
         },
@@ -1385,7 +1458,6 @@ const DATA_PERIODS = {
               "round": "战略轮",
               "val": "500亿",
               "amt": 38,
-              "minAUM": 150,
               "trend": "up",
               "base": 0.6,
               "w": {
@@ -1394,7 +1466,10 @@ const DATA_PERIODS = {
                 "net": 101
               },
               "why": "押上全部信誉，投向AGI的圣杯",
-              "minHealth": 70
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "终极能源",
@@ -1403,7 +1478,6 @@ const DATA_PERIODS = {
               "round": "A轮",
               "val": "80亿",
               "amt": 32,
-              "minAUM": 120,
               "trend": "up",
               "base": 0.7,
               "w": {
@@ -1411,7 +1485,11 @@ const DATA_PERIODS = {
                 "track": 286,
                 "net": 78
               },
-              "why": "为后人点灯，回报或在二十年后"
+              "why": "为后人点灯，回报或在二十年后",
+              "gate": {
+                "type": "track",
+                "min": 1200
+              }
             },
             {
               "tag": "稳健退场",
@@ -1420,7 +1498,6 @@ const DATA_PERIODS = {
               "round": "——",
               "val": "——",
               "amt": 26,
-              "minAUM": 0,
               "trend": "safe",
               "base": 1,
               "w": {
@@ -1428,7 +1505,8 @@ const DATA_PERIODS = {
                 "track": 176,
                 "net": 51
               },
-              "why": "放弃暴利想象，确定性最高，体面谢幕"
+              "why": "放弃暴利想象，确定性最高，体面谢幕",
+              "gate": null
             }
           ]
         }
