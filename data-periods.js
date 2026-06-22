@@ -489,7 +489,7 @@ const DATA_PERIODS = {
               "why": "A股6000点顶峰追高，泡沫巨大",
               "gate": {
                 "type": "health",
-                "min": 80
+                "min": 75
               }
             }
           ]
@@ -598,7 +598,7 @@ const DATA_PERIODS = {
               "why": "押中「互联网+硬件」范式革命",
               "gate": {
                 "type": "health",
-                "min": 80
+                "min": 70
               }
             },
             {
@@ -818,7 +818,7 @@ const DATA_PERIODS = {
               "why": "看不起的「土味」，藏着真实流量金矿",
               "gate": {
                 "type": "health",
-                "min": 80
+                "min": 60
               }
             },
             {
@@ -978,7 +978,7 @@ const DATA_PERIODS = {
               "why": "难而正确，回报往往最丰厚",
               "gate": {
                 "type": "health",
-                "min": 80
+                "min": 45
               }
             },
             {
@@ -1342,7 +1342,7 @@ const DATA_PERIODS = {
               "why": "从demo到量产鸿沟巨大",
               "gate": {
                 "type": "health",
-                "min": 80
+                "min": 30
               }
             }
           ]
@@ -1390,7 +1390,7 @@ const DATA_PERIODS = {
               "why": "资本最追捧，量产盈利仍是问号",
               "gate": {
                 "type": "health",
-                "min": 75
+                "min": 30
               }
             },
             {

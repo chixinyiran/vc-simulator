@@ -46,15 +46,7 @@ const CONFIG = {
   luckDelta: { SS:4, S:2, A:0, B:-2, C:-4 },
 
   // 健康衰减规则
-  health: {
-    baseDecay: 1,        // 每笔投资基础衰减
-    rampPerPeriod: 0.6,  // 每过一个时代,衰减+0.6(后期更耗)
-    extraOnBad: 2,       // 失利额外扣
-    extraOnVeryBad: 5,   // 惨败额外扣
-    bonusOnGreat: 1,     // 大成功反而提振
-    minHealth: 0,
-    maxHealth: 100,
-  },
+  health: { baseDecay:1.5, rampPerPeriod:0.7, extraOnBad:7, extraOnVeryBad:14, bonusOnGreat:1, minHealth:0, maxHealth:100 },
 
   // 健康死亡相关
   healthDeath: {
