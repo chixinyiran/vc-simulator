@@ -730,6 +730,7 @@ function stopMusic(){
   document.addEventListener('pointerover', function(e){
     if(e.pointerType!=='mouse') return;  // 触屏/笔不响 hover
     if(!window.Sfx || !Sfx.isHoverEnabled || !Sfx.isHoverEnabled()) return;
+    if(Sfx.unlock) Sfx.unlock();  // 双保险:确保音频上下文已解锁(hover 本身不算手势,依赖之前点击过)
     let kind=null, target=null;
     if(target=e.target.closest('.btn:not(:disabled)')){ kind='btn'; }
     else if(target=e.target.closest('.deal:not(.locked)')){ kind='deal'; }

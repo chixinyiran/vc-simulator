@@ -195,7 +195,18 @@ const Sfx = (function(){
         opt:    [988],         // 题目选项:偏低(柔和)
         icon:   [1568],        // 图标钮:高频点(清脆)
       }[kind]||[1320];
-      f.forEach((freq,i)=>tone(freq, i*0.014, 0.11, 'sine', 1.0));
+      const emit=()=>{ try{ f.forEach((freq,i)=>tone(freq, i*0.014, 0.11, 'sine', 1.0)); }catch(e){} };
+      // 与 play() 同样的解锁兼底:ctx 还 suspended 时轮询等变 running 再发,否则 oscillator 被静音丢弃
+      if(ctx.state==='suspended'){
+        try{ ctx.resume(); }catch(e){}
+        let tries=0;
+        (function waitRun(){
+          if(ctx.state==='running'){ emit(); return; }
+          if(tries++>20){ emit(); return; }
+          try{ ctx.resume(); }catch(e){}
+          setTimeout(waitRun, 20);
+        })();
+      } else { emit(); }
     }
   };
 })();
