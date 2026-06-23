@@ -12,7 +12,6 @@ const $periodIntro = document.getElementById('periodIntro');
 
 const GAME = {
   start: CONFIG.start,
-  titles: DATA_PERIODS.titles,
   outcomeTiers: CONFIG.outcomeTiers,
   periods: DATA_PERIODS.periods,
   endingTiers: DATA_ENDINGS.endingTiers,
