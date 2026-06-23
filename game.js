@@ -57,6 +57,7 @@ function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
 // 保存中途进度(每进入一站/答题时调用)
 function saveProgress(){
   if(gameOver)return;
+  if(!state||typeof pIdx!=='number'||typeof rIdx!=='number')return;  // 防御:纯回看态/冷启动时 state/pIdx 为 undefined,不可写入残废存档覆盖正常进度
   lsSet(SAVE_KEY,{state,pIdx,rIdx,stagedThisPeriod,fullHistory,mbti,upPicks,ts:Date.now()});
 }
 function clearProgress(){ lsDel(SAVE_KEY); }
@@ -660,24 +661,34 @@ function renderMBTI(){
 
 function toast(msg,ms){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window._tt);window._tt=setTimeout(()=>t.classList.remove('show'),ms||2200);}
 function genImage(){
+  if(window._genImaging) return;  // 重入锁:截图进行中再点直接忽略,防止连点导致明细块被永久隐藏
+  if(typeof html2canvas==='undefined'){ toast(CONFIG.text.genImageFail||'截图库未就绪,请稍后再试',3000); return; }  // H3:库未加载完(慢网首次)直接提示,不抛错
+  window._genImaging=true;
   if(window.Sfx)Sfx.play('click');
   const card=document.getElementById('shareCard');
-  // 截图前临时隐藏「二十六年投资轨迹」明细块(页面仍显示,只是不进长图,避免截图过长)
+  // 截图前临时隐藏「二十六年投资轨迹」明细块(页面仍显示,只是不进截图,避免截图过长)
   const rec=document.getElementById('scRecord');
-  const recPrevDisplay = rec ? rec.style.display : null;
   if(rec) rec.style.display='none';
+  const restore=()=>{ if(rec) rec.style.display=''; window._genImaging=false; };  // 恢复为CSS默认(block),不依赖快照值
+  // H1加固:二维码是异步生成(白边重绘),若截图时还没就绪(回看页秒点)会截到空/半成品.先确保就绪.
+  const qrReady=()=>{ const i=document.querySelector('#scQr img'); return i && i.src && i.src.indexOf('data:image')===0; };
+  if(!qrReady() && typeof renderShareQR==='function'){ renderShareQR(); }  // 没就绪就补生成一次
   toast(CONFIG.text.genImageWait,4000);
-  setTimeout(()=>{
+  const shoot=()=>{
     html2canvas(card,{scale:2,backgroundColor:'#f5f1e8',useCORS:true,logging:false,windowWidth:card.scrollWidth}).then(canvas=>{
-      if(rec) rec.style.display = recPrevDisplay || '';  // 截完立即恢复显示
+      restore();  // 截完立即恢复显示
       const dataUrl=canvas.toDataURL('image/png');
       const modal=document.getElementById('imgModal');
       document.getElementById('imgOut').src=dataUrl;
       document.getElementById('imgTip').innerHTML=CONFIG.text.genImageTip;
       modal.classList.add('show');
       toast(CONFIG.text.genImageOk,1500);
-    }).catch(e=>{if(rec) rec.style.display = recPrevDisplay || '';console.error(e);toast(CONFIG.text.genImageFail,3000);});
-  },80);
+    }).catch(e=>{restore();console.error(e);toast(CONFIG.text.genImageFail,3000);});
+  };
+  // 轮询等二维码就绪(最多~500ms),就绪即截;兜底超时也截(不卡死)
+  let waited=0;
+  const tick=()=>{ if(qrReady()||waited>=500){ setTimeout(shoot,30); } else { waited+=40; setTimeout(tick,40); } };
+  tick();
 }
 
 function renderShareQR(){
