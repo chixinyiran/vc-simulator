@@ -592,7 +592,6 @@ function showEnding(healthDead){
   const loses=fullHistory.filter(h=>h.tier==='C'||h.tier==='B').sort((a,b)=>order[a.tier]-order[b.tier]);
   const best=wins[0], worst=loses[0];
   const ocL={SS:'传奇',S:'命中',A:'保本',B:'失利',C:'惨败'};
-  const recRows=fullHistory.map(h=>`<div class="rec-row"><span class="yr">${h.year}</span><span class="dl">${h.tag} · ${h.name}</span><span class="oc rtier ${GAME.outcomeTiers[h.tier].cls}">${ocL[h.tier]}</span></div>`).join('');
   const winCnt=fullHistory.filter(h=>h.tier==='SS'||h.tier==='S').length;
   const loseCnt=fullHistory.filter(h=>h.tier==='C'||h.tier==='B').length;
   el.innerHTML=`
@@ -611,7 +610,6 @@ function showEnding(healthDead){
         <div class="hl-box lose"><div class="t">💀 至暗一坑</div>${worst?`<div class="nm">${worst.name}</div><div class="yr">${worst.year} · ${worst.tag} · ${ocL[worst.tier]}</div>`:`<div class="none">谨慎如你，未踩重大深坑</div>`}</div>
       </div>
       <div class="mbti-block" id="mbtiBlock"></div>
-      <div class="sc-record"><h3>— 二十六年投资轨迹 —</h3>${recRows}</div>
       <div class="sc-foot"><div class="sc-qr" id="scQr"></div><div class="sc-foot-txt">中国创业投资模拟器 · <b>2000—2026</b> · 🦞 小龙虾出品<div class="qr-tip">长按扫码走一遍你的投资人生 · 仅供娱乐</div></div></div>
     </div>
     <div class="share-actions">
