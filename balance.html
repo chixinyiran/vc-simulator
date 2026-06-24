@@ -116,13 +116,16 @@
   <div class="footer">🦞 小龙虾出品 · 数值手册+调参器 · 数据=游戏真实配置（config.js / data-periods.js / data-endings.js）</div>
 </div>
 
-<script src="config.js?v=20260625n"></script>
-<script src="data-periods.js?v=20260625n"></script>
-<script src="data-endings.js?v=20260625n"></script>
-<script src="data-mbti.js?v=20260625n"></script>
+<script src="config.js?v=20260625o"></script>
+<script src="data-periods.js?v=20260625o"></script>
+<script src="data-endings.js?v=20260625o"></script>
+<script src="data-mbti.js?v=20260625o"></script>
 <script>
 "use strict";
 var RUNS=10000;
+// 称号目标比例(主人2026-06-24定的调参标尺): 封神10/一线20/资深20/稳进20/过山车10/离场10/健康透支10 = 100%
+// 以后调 base/阈值/趋势配比 都朝这个比例努力, 结果面板会显示实测vs目标的偏差
+var TARGET_DIST={legend:10,master:20,veteran:20,steady:20,rollercoaster:10,exit:10,earlyout:10};
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function tierMin(k){var t=DATA_ENDINGS.endingTiers.find(function(t){return t.key===k;});return t?t.min:0;}
 
@@ -420,9 +423,16 @@ function runSim(){
   var q=function(arr,p){return arr[Math.floor(arr.length*p)];};
   var endColor={legend:'#b8860b',master:'#2c5282',veteran:'#3c6b4f',steady:'#5a6470',rollercoaster:'#9a7b3a',exit:'#a8453a',earlyout:'#7d5a3a'};
   var h='';
-  h+='<div class="panel"><h2>🏆 结局称号分布</h2>';
+  // 实测vs目标偏差: 总偏离度=各档|实测-目标|之和(越小越接近主人定的标尺)
+  var totDev=0; order.forEach(function(k){if(TARGET_DIST[k]!=null)totDev+=Math.abs((endCnt[k]/RUNS*100)-TARGET_DIST[k]);});
+  var devColor=totDev<=20?'#3c6b4f':(totDev<=40?'#9a7b3a':'#a8453a');
+  h+='<div class="panel"><h2>🏆 结局称号分布 <span style="font-size:11px;font-weight:600;color:'+devColor+'">总偏离 '+totDev.toFixed(1)+'%</span></h2>';
+  h+='<div class="txt" style="font-size:11px;color:#8c857a;margin-bottom:10px;">目标比例(主人标尺): 封神10/一线20/资深20/稳进20/过山车10/离场10/健康透支10 —— 调参朝此努力</div>';
   order.forEach(function(k){var c=endCnt[k],pct=(c/RUNS*100);var cut=(k==='exit')?('<'+P.cutRoller):(k==='earlyout'?'特殊':'≥'+tcut[k]);
-    h+='<div class="row"><div class="nm">'+nm[k]+'</div><div class="barwrap"><div class="bar" style="width:'+Math.min(100,pct*2.5)+'%;background:'+endColor[k]+'"></div></div><div class="pct">'+pct.toFixed(1)+'% <small style="color:#8c857a">'+cut+'</small></div></div>';});
+    var tg=TARGET_DIST[k],dev=(tg!=null)?(pct-tg):null;
+    var devTxt=(dev!=null)?('<span style="color:'+(Math.abs(dev)<=3?'#3c6b4f':(Math.abs(dev)<=6?'#9a7b3a':'#a8453a'))+'">'+(dev>=0?'+':'')+dev.toFixed(1)+'</span>'):'';
+    var tgMark=(tg!=null)?'<div style="position:absolute;left:'+Math.min(100,tg*2.5)+'%;top:0;width:2px;height:100%;background:rgba(26,23,20,.45);"></div>':'';
+    h+='<div class="row"><div class="nm">'+nm[k]+'</div><div class="barwrap"><div class="bar" style="width:'+Math.min(100,pct*2.5)+'%;background:'+endColor[k]+'"></div>'+tgMark+'</div><div class="pct">'+pct.toFixed(1)+'% '+(tg!=null?'<small style="color:#8c857a">目标'+tg+' '+devTxt+'</small>':'<small style="color:#8c857a">'+cut+'</small>')+'</div></div>';});
   h+='</div>';
   h+='<div class="panel"><h2>📈 综合评分</h2><div class="stat-grid">';
   h+='<div class="stat"><div class="k">平均/中位</div><div class="v">'+Math.round(scores.reduce(function(a,b){return a+b;},0)/RUNS)+' <small>/ '+q(scores,0.5)+'</small></div></div>';
