@@ -20,6 +20,23 @@ const GAME = {
 
 let state, pIdx, rIdx, selDeal, stagedThisPeriod, fullHistory, gameOver, mbti, upPicks=0;
 
+// ===== 选项随机展示(Fisher-Yates原地洗牌) =====
+// 洗的是数组本身 → index→数据映射、评分、门槛、undo(按name匹配)全部自动正确。
+// 用 _sh 标记保证一局内每题/每轮只洗一次,重选/重渲染保持同序,不抖动。
+function shuffleOnce(arr){
+  if(!arr||arr._sh)return arr;
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  Object.defineProperty(arr,'_sh',{value:true,enumerable:false,configurable:true});
+  return arr;
+}
+// 开新一局时清掉所有 _sh 标记,让新局重新随机(否则同一浏览器会话内多局顺序会一样)
+function resetShuffle(){
+  try{
+    Object.keys(MBTI.scenarios||{}).forEach(k=>{const a=MBTI.scenarios[k].opts;if(a)delete a._sh;});
+    (GAME.periods||[]).forEach(p=>(p.rounds||[]).forEach(r=>{if(r.deals)delete r.deals._sh;}));
+  }catch(e){}
+}
+
 // ===== 本地存档系统 (localStorage) =====
 const SAVE_KEY=CONFIG.storage.save;
 const RESULT_KEY=CONFIG.storage.result;
@@ -191,6 +208,7 @@ function startGame(){
   upPicks=0;
   pIdx=0; rIdx=0; selDeal=null; stagedThisPeriod=[]; fullHistory=[]; gameOver=false;
   mbti={risk:0,mind:0};
+  resetShuffle();  // 新局重新洗牌,每局选项顺序不同
   document.getElementById('cover').classList.add('hidden');
   $ending.classList.add('hidden');
   $ending.innerHTML='';
@@ -275,6 +293,7 @@ function showScenario(){
   const p=GAME.periods[pIdx];
   const sc=MBTI.scenarios[p.id];
   if(!sc){ showStory(); return; }
+  shuffleOnce(sc.opts);  // 随机展示选项顺序(首次进入本题时洗一次)
   const opts=sc.opts.map((o,i)=>`<div class="sc-opt" data-i="${i}" onclick="pickScenario(${i})">${o.t}</div>`).join('');
   $content.innerHTML=`
     <div class="scenario">
@@ -341,6 +360,7 @@ function trendLabel(t){
 function showChoices(preselectIdx){
   if(window.Sfx)Sfx.play('swipe');
   const r=GAME.periods[pIdx].rounds[rIdx]; selDeal=null;
+  shuffleOnce(r.deals);  // 随机展示标的顺序(首次进入本轮时洗一次,重选保持同序)
   // ===== 统一门槛系统 gate:{type:'aum'|'track'|'health', min} 每项最多1个 =====
   // 资本/业绩=硬门槛(属性<min直接锁); 健康=软门槛(运气降门槛+随机扰动,精力波动感)
   // gateLock[i]: 0=不锁 / 'aum' / 'track' / 'health'(锁定原因)
