@@ -4,7 +4,7 @@
     --ink-faint:#8c857a; --line:#d6cfc0; --good:#3c6b4f; --bad:#a8453a;
     --warn:#9a7b3a; --card:#faf7ef; --gold:#b8860b; --accent:#b8860b;
     /* 首页(封面)专属中枢色:宣纸墨褐,独立于各时代主题,不借用首个时代的金色 */
-    --home-accent:#6b5d4a; --home-accent-bright:#3a2f24;
+    --home-accent:#6b5d4a; --home-accent-bright:#3a2f24; --home-accent-gold:#b8860b;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{background:var(--paper);color:var(--ink);
@@ -331,7 +331,7 @@
   user-select:none;-webkit-tap-highlight-color:transparent;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
 .info-btn svg{width:18px;height:18px;display:block;pointer-events:none;}
 @media (hover: hover) {
-.info-btn:hover{opacity:1;transform:scale(1.06) rotate(4deg);background:rgba(255,255,255,.9);border-color:var(--accent);color:var(--accent);box-shadow:0 3px 10px rgba(26,23,20,.12);box-shadow:0 3px 10px color-mix(in srgb,var(--accent) 22%,transparent);}
+.info-btn:hover{opacity:1;transform:scale(1.06) rotate(4deg);background:rgba(255,255,255,.9);border-color:var(--home-accent-gold);color:var(--home-accent-gold);box-shadow:0 3px 10px rgba(26,23,20,.12);box-shadow:0 3px 10px color-mix(in srgb,var(--home-accent-gold) 22%,transparent);}
 }
 .info-btn:active{transform:scale(.92);}
 /* i图标只在首页(cover可见)显示,其他页面隐藏 */
