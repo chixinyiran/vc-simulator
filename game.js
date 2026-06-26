@@ -617,17 +617,16 @@ function afterPeriod(healthDead){
 
 
 function calcStyle(){
-  const TH=CONFIG.mbtiMidThreshold!=null?CONFIG.mbtiMidThreshold:2;
-  const r=mbti.risk||0, m=-(mbti.data||0);  // 5维：risk激进正，感性=负 data(理性正)
-  const rMid=Math.abs(r)<=TH, mMid=Math.abs(m)<=TH;
-  let key;
-  if(rMid && mMid) key='balanced';        // 两维都模糊 → 均衡型
-  else {
-    const rk=r>=0?'aggressive':'steady';
-    const mk=m>=0?'emotional':'rational';
-    key=rk+'_'+mk;
+  // 五维人格：玩家五维(0-100) → 最近人格原型(与大师匹配同源)
+  const ps = (typeof profile6Scores==='function') ? profile6Scores() : null;
+  if(ps && typeof PERSONA5!=='undefined'){
+    const a = PERSONA5.match(ps);
+    const sub = PERSONA5.subFromDims(ps, (typeof PROFILE!=='undefined'&&PROFILE.dims)?PROFILE.dims:[]);
+    return { key:a.key, emoji:a.emoji, title:a.title, sub:sub, color:a.color, tag:a.tag, desc:a.desc };
   }
-  return MBTI.styles[key];
+  // 兜底(PERSONA5/PROFILE 未加载)：返回均衡型
+  return { key:'balanced', emoji:'⚖️', title:'均衡掌舵者', sub:'攻守兼备 · 不走极端', color:'#5a6470',
+    tag:'灵活 · 不走极端', desc:'你没有明显的偏科，能稳能进、能算账也懂得为愿景留温度，像老练的舵手随风浪调整航向。' };
 }
 function mbtiDimBars(){
   // 返回两维度偏向百分比(50中点)。单维度极端累计≈5题×3=15，取 14 为归一化分母
@@ -787,9 +786,9 @@ function drawRadar(canvas, playerScores, masterScores, accent){
       }
     }
   }
-  // 先画大师(虚线) 再画玩家(实线在上)
+  // 先画大师(虚线) 再画玩家(实线在上)；两者同色(流派色),靠线型区分:你=实线、大师=虚线
   if(masterScores) poly(masterScores, accent, true, false);
-  poly(playerScores, '#c0392b', false, true);
+  poly(playerScores, accent, false, true);
 }
 
 function renderMBTI(){
@@ -798,7 +797,9 @@ function renderMBTI(){
   const ps = profile6Scores();
   let mt=null, b=null;
   if(typeof MASTERS!=='undefined'){ mt=MASTERS.match(ps); b=mt.best; }
-  const accent = mt ? mt.school.color : (sty.color||'#b8860b');
+  // 方案C: 第二部分跟随人格气质色(对齐大师流派色),章节标题仍用结局色
+  const accent = sty.color || (mt?mt.school.color:'#b8860b');
+  el.style.setProperty('--sc', accent);  // 容器主题色=人格色,子元素(人格卡/大师卡/雷达/图例/数值条)全继承
   const others = mt ? mt.others.map(o=>`<span class="mm-other">${o.emoji} ${o.name.replace(/\(.*\)/,'')}</span>`).join('') : '';
   // 图例 + 5 维数值条
   const legend = mt ? `<div class="radar-legend">
@@ -816,20 +817,20 @@ function renderMBTI(){
     const pSrc=(window.PORTRAITS_INLINE&&window.PORTRAITS_INLINE[b.id])||('portraits/'+b.id+'.jpg');
     const pctTxt=(typeof mt.bestPct==='number')?mt.bestPct:'';
     masterHTML=`
-    <div class="master-card" style="--sc:${mt.school.color}">
+    <div class="master-card">
       <div class="mm-portrait" style="background-image:url('${pSrc}')"><span class="mm-emoji-mini">${b.emoji}</span></div>
       <div class="mm-name">${b.name}</div>
       <div class="mm-en">${b.en}</div>
       ${pctTxt!==''?`<div class="mm-pct"><span class="mm-pct-num">${pctTxt}%</span> 相似度</div>`:''}
       <div class="mm-school">${mt.school.name} · ${b.tags}</div>
-      <div class="mm-blurb">${b.blurb}</div>
+      <div class="mm-blurb"><span class="mm-bridge">${(typeof PERSONA5!=='undefined')?PERSONA5.bridge(ps, b.p6, b.name, (typeof PROFILE!=='undefined'&&PROFILE.dims)?PROFILE.dims:[]):''}</span>${b.blurb}</div>
       <div class="mm-others-wrap"><span class="mm-others-label">你也有点像</span>${others}</div>
     </div>`;
   }
 
   el.innerHTML=`
     <div class="sc-sub-head"><span class="sh-emoji">🎭</span>投资人格画像<span class="sh-emoji">🎭</span></div>
-    <div class="mbti-card" style="--mc:${sty.color}">
+    <div class="mbti-card">
       <div class="mc-emoji">${sty.emoji}</div>
       <div class="mc-title">${sty.title}</div>
       <div class="mc-sub">${sty.sub}</div>

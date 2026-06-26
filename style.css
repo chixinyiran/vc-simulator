@@ -119,21 +119,21 @@
   /* MBTI 模块 */
   .mbti-block{margin:0;}
   .mbti-head h3{font-size:13px;letter-spacing:.14em;color:var(--ink-faint);text-align:center;margin-bottom:18px;font-weight:700;}
-  .mbti-card{border:1.5px solid var(--mc,#b8860b);border-radius:4px;padding:24px 22px;text-align:center;background:var(--card);position:relative;}
-  .mbti-card .mc-title{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:26px;font-weight:900;letter-spacing:.04em;color:var(--mc);margin-bottom:8px;}
+  .mbti-card{border:1.5px solid var(--sc,#b8860b);border-radius:4px;padding:24px 22px;text-align:center;background:var(--card);position:relative;}
+  .mbti-card .mc-title{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:26px;font-weight:900;letter-spacing:.04em;color:var(--sc);margin-bottom:8px;}
   .mbti-card .mc-tag{font-size:13px;color:var(--ink-faint);letter-spacing:.1em;margin-bottom:16px;}
   .mbti-card .mc-desc{font-size:14px;color:var(--ink);line-height:2.05;text-align:left;text-indent:2em;}
   /* 投资风格画像 - 新增样式 */
   .mbti-card .mc-emoji{font-size:46px;line-height:1;margin-bottom:8px;}
-  .mbti-card .mc-sub{font-size:13.5px;color:var(--mc,#b8860b);letter-spacing:.16em;font-weight:700;margin-bottom:6px;}
+  .mbti-card .mc-sub{font-size:13.5px;color:var(--sc,#b8860b);letter-spacing:.16em;font-weight:700;margin-bottom:6px;}
   .mbti-dims2{margin-top:20px;display:flex;flex-direction:column;gap:18px;}
   .dm2-row{display:flex;align-items:center;gap:12px;}
   .dm2-left,.dm2-right{font-size:13px;font-weight:700;color:var(--ink-soft);min-width:34px;}
   .dm2-left{text-align:right;} .dm2-right{text-align:left;}
   .dm2-track{flex:1;height:6px;background:var(--line);border-radius:4px;position:relative;}
-  .dm2-fill{position:absolute;top:0;height:100%;background:var(--mc,#b8860b);opacity:.3;border-radius:4px;}
+  .dm2-fill{position:absolute;top:0;height:100%;background:var(--sc,#b8860b);opacity:.3;border-radius:4px;}
   .dm2-track::before{content:"";position:absolute;left:50%;top:-3px;width:1px;height:12px;background:var(--ink-faint);opacity:.4;}
-  .dm2-dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:var(--mc,#b8860b);border:2px solid var(--paper);transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.2);}
+  .dm2-dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:var(--sc,#b8860b);border:2px solid var(--paper);transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.2);}
   /* 投资大师匹配卡 */
   .master-card .mm-pct{font-size:13px;color:var(--ink-faint);letter-spacing:.08em;margin-bottom:14px;}
   .master-card .mm-pct .mm-pct-num{font-size:22px;font-weight:900;color:var(--sc,#b8860b);font-variant-numeric:tabular-nums;letter-spacing:0;}
@@ -145,6 +145,8 @@
   .master-card .mm-en{font-size:12px;color:var(--ink-faint);letter-spacing:.08em;margin-bottom:8px;font-style:italic;}
   .master-card .mm-school{font-size:13px;color:var(--sc);letter-spacing:.06em;font-weight:700;margin-bottom:16px;}
   .master-card .mm-blurb{font-size:14px;color:var(--ink);line-height:2.05;text-align:left;text-indent:2em;margin-bottom:18px;}
+  .master-card .mm-bridge{color:var(--sc,#b8860b);font-weight:800;}
+
   .master-card .mm-others-wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;padding-top:14px;border-top:1px dashed var(--line);}
   .master-card .mm-others-label{font-size:12px;color:var(--ink-faint);letter-spacing:.08em;}
   .master-card .mm-other{font-size:12.5px;color:var(--ink-soft);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:3px 11px;font-weight:600;}
@@ -153,14 +155,14 @@
   .radar-canvas{width:min(360px,86vw);height:auto;display:block;margin-bottom:-7%;}
   .radar-legend{margin-top:-2px;display:flex;gap:18px;font-size:12.5px;color:var(--ink-soft);letter-spacing:.04em;}
   .radar-legend .lg{display:inline-flex;align-items:center;gap:6px;}
-  .radar-legend .lg i{display:inline-block;width:18px;height:0;border-top:2.4px solid #c0392b;}
+  .radar-legend .lg i{display:inline-block;width:18px;height:0;border-top:2.4px solid var(--sc,#b8860b);}
   .radar-legend .lg-master i{border-top:1.8px dashed var(--ink-faint);}
   /* 6 维分项条 */
   .p6-list{margin:18px 0 10px;display:flex;flex-direction:column;gap:11px;}
   .p6-row{display:flex;align-items:center;gap:12px;font-size:13px;}
   .p6-axis{min-width:74px;color:var(--ink-soft);font-weight:700;letter-spacing:.04em;}
   .p6-bar{flex:1;height:6px;background:var(--line);border-radius:4px;position:relative;overflow:hidden;}
-  .p6-bar i{display:block;height:100%;background:linear-gradient(90deg,#b8860b,#c46a3a);border-radius:4px;}
+  .p6-bar i{display:block;height:100%;background:var(--sc,#b8860b);border-radius:4px;}
   .p6-val{min-width:38px;text-align:right;font-size:12px;color:var(--ink-faint);letter-spacing:.06em;}
   .cover-btns{display:flex;flex-direction:column;gap:13px;align-items:center;}
   .cover-stats{margin-top:26px;font-size:12px;color:var(--ink-faint);line-height:1.9;letter-spacing:.03em;}
