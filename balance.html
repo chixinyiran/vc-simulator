@@ -440,6 +440,7 @@ function play(strat){
   return{score:score,ending:pickEnding(score,state),dead:state.health<=0,state:state,lock:lock};
 }
 function runSim(){
+  if(!P){return;}  // P(参数快照)未就绪时不跑,避免提前触发(恢复tune tab早于snapshot)崩在"模拟中"
   var strats=['greedy','safe','trend','random'];
   var order=['legend','master','veteran','steady','rollercoaster','exit','earlyout'];
   var nm={legend:'👑 封神级',master:'🌟 一线传奇',veteran:'💼 资深合伙人',steady:'⚖️ 稳进玩家',rollercoaster:'🎢 过山车',exit:'📉 离场',earlyout:'🏥 健康透支'};
@@ -543,6 +544,8 @@ setTimeout(function(){
     renderDoc();
     BASE=snapshot();P=JSON.parse(JSON.stringify(BASE));
     renderParams();markDirty();
+    // P就绪后,若当前停在调参分布tab却还没模拟过(此前因P未就绪被守卫拦下),现在补跑一次
+    if(!window.__simDone && document.querySelector('#page-tune.on')){ runSim(); }
   }catch(e){document.getElementById('live').textContent='❌ 出错:'+e.message;console.error(e);}
 },120);
 
