@@ -81,21 +81,42 @@ function clearProgress(){ lsDel(SAVE_KEY); }
 // 保存完成的结果
 // ===== 上报到后端(全栈版数据收集,同源fetch,静默失败不影响游戏) =====
 // 上报:postMessage 给父页(全栈版iframe嵌入时父页收集);纯静态独立打开时无后端,静默
-function reportApi(kind, body){
-  // 纯静态托管(妙搭/GitHub Pages)无后端,仅 postMessage 给父页(全栈版iframe嵌入时收集);独立打开则静默无操作
-  try{ if(window.parent && window.parent!==window){ window.parent.postMessage(Object.assign({__vcsim__:kind}, body), '*'); } }catch(e){}
+// 上报:两条路并行,各部署各取所需,静默失败不影响游戏。
+// 1) 妙搭全栈版:postMessage 给父页(iframe外壳收,带csrf调server入库)
+// 2) GitHub Pages纯静态版:直连 Supabase REST 插表(配置了 CONFIG.supabase 才走)
+// kind: 'result' → results表 / 'visit' → visits表; row 已是对应表的字段(下划线命名)
+function reportApi(kind, row){
+  // 妙搭外壳路径(保留,行为不变)
+  try{ if(window.parent && window.parent!==window){ window.parent.postMessage(Object.assign({__vcsim__:kind}, row), '*'); } }catch(e){}
+  // Supabase 直连路径
+  try{
+    var sb=(CONFIG&&CONFIG.supabase)||{};
+    if(!sb.url||!sb.key)return; // 未配置则不上报(妙搭版即此情况,只走postMessage)
+    var table=(kind==='result')?'results':(kind==='visit')?'visits':null;
+    if(!table)return;
+    fetch(sb.url.replace(/\/$/,'')+'/rest/v1/'+table,{
+      method:'POST',
+      headers:{
+        'apikey':sb.key,
+        'Authorization':'Bearer '+sb.key,
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
+      },
+      body:JSON.stringify(row)
+    }).catch(function(){});
+  }catch(e){}
 }
 function reportResult(payload){
   reportApi('result',{
-    playerId:getPlayerId(), playerName:getPlayerName(),
+    player_id:getPlayerId(), player_name:getPlayerName()||null,
     score:payload.score, title:payload.title, style:payload.styleTitle
   });
 }
 function reportVisit(){
   const inv=getInviter();
   reportApi('visit',{
-    visitorId:getPlayerId(), playerName:getPlayerName(),
-    inviterId:inv?inv.id:null, inviterName:inv?inv.name:null
+    visitor_id:getPlayerId(), player_name:getPlayerName()||null,
+    inviter_id:inv?inv.id:null, inviter_name:inv?inv.name:null
   });
 }
 function saveResult(payload){

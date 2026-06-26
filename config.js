@@ -3,6 +3,13 @@
 // 作者 小龙虾
 
 const CONFIG = {
+  // === 数据上报(Supabase,GitHub Pages纯静态直连) ===
+  // 留空则不上报(妙搭全栈版走iframe postMessage,不用这个)。publishable key 公开安全。
+  supabase: {
+    url: 'https://cddkniwbhvcbfgkgomtl.supabase.co',
+    key: 'sb_publishable_gDgxjmUD6m7hg2v98GLMdw_2tjqWK8H',
+  },
+
   // 玩家初始属性
   start: { aum:100, track:100, network:100, health:100, luck:50 },
 
