@@ -103,8 +103,21 @@
     .scenario .sc-opt:hover{border-color:var(--accent);border-left-color:var(--accent);transform:translateX(4px);box-shadow:0 4px 14px rgba(26,23,20,.08);box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 14%,transparent);}
   }
   .scenario .sc-opt.picked{border-color:var(--accent);border-width:1.5px;background:#fff;color:var(--accent);font-weight:700;}
+  /* === 结果页章节系统(方案A v2:壹·名称 + emoji 子标题) === */
+  .sc-chapter{display:flex;align-items:center;justify-content:center;gap:10px;margin:52px 0 26px;}
+  .sc-chapter::before,.sc-chapter::after{content:"";flex:1;max-width:72px;height:1px;background:linear-gradient(90deg,transparent,var(--accent-c,#b8860b));opacity:.4;}
+  .sc-chapter::after{background:linear-gradient(90deg,var(--accent-c,#b8860b),transparent);}
+  .sc-chapter .ch-num{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:24px;font-weight:900;color:var(--accent-c,#b8860b);letter-spacing:.02em;flex:0 0 auto;}
+  .sc-chapter .ch-dot{font-size:18px;color:var(--accent-c,#b8860b);opacity:.6;flex:0 0 auto;margin:0 -2px;}
+  .sc-chapter .ch-name{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:21px;letter-spacing:.08em;color:var(--accent-c,#b8860b);font-weight:900;flex:0 0 auto;}
+  .sc-quote + .sc-chapter{margin-top:36px;}
+  /* 子模块标题(去序号,用 emoji 装饰+左侧竖线强调) */
+  .sc-sub-head{display:flex;align-items:center;justify-content:center;gap:9px;font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:.1em;margin:28px 0 15px;line-height:1.4;}
+  .sc-sub-head:first-child{margin-top:6px;}
+  .sc-sub-head .sh-emoji{font-size:17px;flex:0 0 auto;opacity:.9;}
+  .sc-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;}
   /* MBTI 模块 */
-  .mbti-block{margin:30px 0 26px;}
+  .mbti-block{margin:0;}
   .mbti-head h3{font-size:13px;letter-spacing:.14em;color:var(--ink-faint);text-align:center;margin-bottom:18px;font-weight:700;}
   .mbti-card{border:1.5px solid var(--mc,#b8860b);border-radius:4px;padding:24px 22px;text-align:center;background:var(--card);position:relative;}
   .mbti-card .mc-title{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:26px;font-weight:900;letter-spacing:.04em;color:var(--mc);margin-bottom:8px;}
@@ -121,6 +134,34 @@
   .dm2-fill{position:absolute;top:0;height:100%;background:var(--mc,#b8860b);opacity:.3;border-radius:4px;}
   .dm2-track::before{content:"";position:absolute;left:50%;top:-3px;width:1px;height:12px;background:var(--ink-faint);opacity:.4;}
   .dm2-dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;background:var(--mc,#b8860b);border:2px solid var(--paper);transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.2);}
+  /* 投资大师匹配卡 */
+  .master-card .mm-pct{font-size:13px;color:var(--ink-faint);letter-spacing:.08em;margin-bottom:14px;}
+  .master-card .mm-pct .mm-pct-num{font-size:22px;font-weight:900;color:var(--sc,#b8860b);font-variant-numeric:tabular-nums;letter-spacing:0;}
+  .master-card{border:1.5px solid var(--sc,#b8860b);border-radius:4px;padding:24px 22px;text-align:center;background:var(--card);position:relative;}
+  .master-card .mm-emoji{font-size:46px;line-height:1;margin-bottom:8px;}
+  .master-card .mm-portrait{width:150px;height:150px;border-radius:50%;margin:0 auto 16px;background-size:cover;background-position:center 12%;background-repeat:no-repeat;background-color:#f5f1e8;border:4px solid var(--sc,#b8860b);box-shadow:0 6px 18px rgba(0,0,0,.16);position:relative;}
+  .master-card .mm-portrait .mm-emoji-mini{position:absolute;right:-2px;bottom:-2px;font-size:36px;line-height:1;background:#fff;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:3px solid var(--sc,#b8860b);box-shadow:0 2px 6px rgba(0,0,0,.18);}
+  .master-card .mm-name{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:25px;font-weight:900;letter-spacing:.03em;color:var(--sc);margin-bottom:3px;}
+  .master-card .mm-en{font-size:12px;color:var(--ink-faint);letter-spacing:.08em;margin-bottom:8px;font-style:italic;}
+  .master-card .mm-school{font-size:13px;color:var(--sc);letter-spacing:.06em;font-weight:700;margin-bottom:16px;}
+  .master-card .mm-blurb{font-size:14px;color:var(--ink);line-height:2.05;text-align:left;text-indent:2em;margin-bottom:18px;}
+  .master-card .mm-others-wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;padding-top:14px;border-top:1px dashed var(--line);}
+  .master-card .mm-others-label{font-size:12px;color:var(--ink-faint);letter-spacing:.08em;}
+  .master-card .mm-other{font-size:12.5px;color:var(--ink-soft);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:3px 11px;font-weight:600;}
+  /* 6 维雷达图 */
+  .radar-wrap{margin-top:6px;display:flex;flex-direction:column;align-items:center;}
+  .radar-canvas{width:min(360px,86vw);height:auto;display:block;margin-bottom:-7%;}
+  .radar-legend{margin-top:-2px;display:flex;gap:18px;font-size:12.5px;color:var(--ink-soft);letter-spacing:.04em;}
+  .radar-legend .lg{display:inline-flex;align-items:center;gap:6px;}
+  .radar-legend .lg i{display:inline-block;width:18px;height:0;border-top:2.4px solid #c0392b;}
+  .radar-legend .lg-master i{border-top:1.8px dashed var(--ink-faint);}
+  /* 6 维分项条 */
+  .p6-list{margin:18px 0 10px;display:flex;flex-direction:column;gap:11px;}
+  .p6-row{display:flex;align-items:center;gap:12px;font-size:13px;}
+  .p6-axis{min-width:74px;color:var(--ink-soft);font-weight:700;letter-spacing:.04em;}
+  .p6-bar{flex:1;height:6px;background:var(--line);border-radius:4px;position:relative;overflow:hidden;}
+  .p6-bar i{display:block;height:100%;background:linear-gradient(90deg,#b8860b,#c46a3a);border-radius:4px;}
+  .p6-val{min-width:38px;text-align:right;font-size:12px;color:var(--ink-faint);letter-spacing:.06em;}
   .cover-btns{display:flex;flex-direction:column;gap:13px;align-items:center;}
   .cover-stats{margin-top:26px;font-size:12px;color:var(--ink-faint);line-height:1.9;letter-spacing:.03em;}
   .cover-stats b{color:var(--ink-soft);font-weight:700;}
@@ -258,7 +299,7 @@
   .sc-head h1{font-family:"Kaiti SC","STKaiti","Songti SC",serif;font-size:clamp(26px,7vw,42px);font-weight:900;letter-spacing:.03em;line-height:1.2;color:var(--accent-c,#b8860b);}
   .sc-quote{text-align:center;font-style:italic;font-size:15px;color:var(--ink-soft);line-height:2;max-width:540px;margin:0 auto 28px;padding:0 10px;}
   .sc-summary{font-size:14.5px;color:var(--ink);line-height:2.1;text-align:left;text-indent:2em;max-width:620px;margin:0 auto 30px;}
-  .sc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:26px;}
+  .sc-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 16px;margin-bottom:18px;}
   .sc-stats .fs{text-align:center;}
   .sc-stats .fs .k{font-size:11px;color:var(--ink-faint);margin-bottom:5px;}
   .sc-stats .fs .v{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--accent-c,#b8860b);}

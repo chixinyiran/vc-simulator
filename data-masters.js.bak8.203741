@@ -1,0 +1,88 @@
+// 投资大师匹配数据层 - 把玩家的 risk/mind 坐标映射到最像的投资大师
+// risk: 稳健(−) ↔ 激进(+)   mind: 理性(−) ↔ 感性(+)
+// 坐标范围 −10~+10，匹配时与玩家坐标统一归一化到 −1~+1
+// 素材来源：全球投资大师图谱（5 流派 16 人）
+// 作者 小龙虾
+
+const MASTERS = {
+  // 流派主题色（卡片配色跟随）
+  schools: {
+    value:     { name:'价值投资派', color:'#2c5282' },
+    growth:    { name:'成长投资派', color:'#3c6b4f' },
+    macro:     { name:'宏观交易派', color:'#b8860b' },
+    quant:     { name:'量化投资派', color:'#5a4b8a' },
+    activist:  { name:'激进/事件驱动派', color:'#b04a3a' },
+  },
+  // 大师坐标 + 标签 + 与玩家"对话感"的点评
+  // p6: 6 维画像 [risk,data,horizon,contra,focus,decisive] 各 0~100，用于雷达图虚线 + 6 维匹配
+  list: [
+    { id:'graham', name:'本杰明·格雷厄姆', en:'Benjamin Graham', emoji:'📜', school:'value',
+      risk:-9, mind:-8, p6:{risk:10,data:95,horizon:70,contra:78,focus:35,decisive:35}, tags:'安全边际 · 内在价值',
+      blurb:'价值投资的祖师爷。和你一样只买"算得清、跌不动"的便宜货，把安全边际刻进骨子里——别人贪婪时你数钱，别人恐惧时你捡漏。' },
+    { id:'buffett', name:'沃伦·巴菲特', en:'Warren Buffett', emoji:'🎩', school:'value',
+      risk:-6, mind:-2, p6:{risk:22,data:72,horizon:98,contra:80,focus:88,decisive:50}, tags:'护城河 · 长期主义',
+      blurb:'价值投资之王。你和他都信奉"看得懂才下手"，靠耐心和复利取胜，把好生意攥在手里几十年不撒手。时间，是你们共同的朋友。' },
+    { id:'munger', name:'查理·芒格', en:'Charlie Munger', emoji:'🧠', school:'value',
+      risk:-6, mind:-5, p6:{risk:25,data:88,horizon:95,contra:78,focus:90,decisive:45}, tags:'多元思维 · 理性',
+      blurb:'巴菲特背后的"老智者"。你和他一样冷静到极致，用多学科思维模型拆解世界，对情绪和噪音免疫——反过来想，总是反过来想。' },
+    { id:'marks', name:'霍华德·马克斯', en:'Howard Marks', emoji:'🌊', school:'value',
+      risk:-4, mind:-6, p6:{risk:30,data:85,horizon:75,contra:88,focus:50,decisive:55}, tags:'周期 · 风险控制',
+      blurb:'橡树资本的周期猎人。你和他都把"控制风险"放在"追求收益"前面，懂得潮水的方向，在所有人狂热时清醒地后退一步。' },
+    { id:'fisher', name:'菲利普·费雪', en:'Philip Fisher', emoji:'🌾', school:'growth',
+      risk:-2, mind:2, p6:{risk:42,data:55,horizon:95,contra:55,focus:80,decisive:40}, tags:'企业品质 · 长期成长',
+      blurb:'成长投资先驱。你比纯价值派多一份对"人和品质"的看重，愿意为优秀的管理层和成长性多付一点，然后长期持有、闲聊式调研。' },
+    { id:'lynch', name:'彼得·林奇', en:'Peter Lynch', emoji:'🔍', school:'growth',
+      risk:1, mind:1, p6:{risk:52,data:60,horizon:65,contra:55,focus:30,decisive:60}, tags:'翻石头 · 选股',
+      blurb:'最接地气的传奇基金经理。你和他一样不走极端、攻守兼备，相信"在生活里发现好公司"，勤奋翻遍每一块石头，理性与直觉并用。' },
+    { id:'wood', name:'凯茜·伍德(木头姐)', en:'Cathie Wood', emoji:'🚀', school:'growth',
+      risk:10, mind:9, p6:{risk:95,data:42,horizon:88,contra:78,focus:82,decisive:85}, tags:'颠覆创新 · 押注未来',
+      blurb:'创新投资的旗手。你和她都为"改变世界的未来"全情下注，相信伟大的技术和愿景，敢在别人看不清时冲在最前面——大起大落，从不后悔燃烧。' },
+    { id:'soros', name:'乔治·索罗斯', en:'George Soros', emoji:'⚡', school:'macro',
+      risk:10, mind:1, p6:{risk:92,data:68,horizon:25,contra:90,focus:88,decisive:95}, tags:'反身性 · 敢下重注',
+      blurb:'宏观交易大鳄。你和他都敢在关键时刻倾囊一击，用对市场情绪和趋势的精准判断下重注——既冷静又凶悍，是埋伏后致命的猎手。' },
+    { id:'dalio', name:'瑞·达利欧', en:'Ray Dalio', emoji:'🧭', school:'macro',
+      risk:-3, mind:-6, p6:{risk:35,data:90,horizon:70,contra:55,focus:15,decisive:55}, tags:'全天候 · 原则平衡',
+      blurb:'桥水的资产配置大师。你和他都靠"原则和系统"而非情绪做决策，追求穿越任何风浪的全天候平衡——理性、克制、滴水不漏。' },
+    { id:'druck', name:'斯坦利·德鲁肯米勒', en:'Stanley Druckenmiller', emoji:'🎯', school:'macro',
+      risk:6, mind:-1, p6:{risk:80,data:72,horizon:35,contra:60,focus:92,decisive:88}, tags:'集中重仓 · 趋势捕手',
+      blurb:'趋势配置大师。你和他都敢在看准的方向上集中重仓，机会来时绝不手软、错了立刻认输——攻击性十足，却始终带着理性的刹车。' },
+    { id:'ptj', name:'保罗·都铎·琼斯', en:'Paul Tudor Jones', emoji:'🛡️', school:'macro',
+      risk:6, mind:3, p6:{risk:72,data:65,horizon:25,contra:65,focus:55,decisive:85}, tags:'纪律 · 灵活交易',
+      blurb:'宏观对冲传奇。你和他都灵活敏捷、敢于出手，但每一次进攻背后都有严格的纪律和止损——热血里藏着冷静的风控本能。' },
+    { id:'simons', name:'吉姆·西蒙斯', en:'Jim Simons', emoji:'📐', school:'quant',
+      risk:2, mind:-9, p6:{risk:55,data:100,horizon:12,contra:50,focus:20,decisive:92}, tags:'数学驱动 · 系统化',
+      blurb:'量化投资之神。你和他一样，对"故事和情怀"完全免疫，只信数据和模型说话——用最冷静的数学逻辑，在市场噪音里捞出确定的金子。' },
+    { id:'asness', name:'克里夫·阿斯内斯', en:'Cliff Asness', emoji:'🔢', school:'quant',
+      risk:-1, mind:-7, p6:{risk:48,data:95,horizon:45,contra:60,focus:18,decisive:65}, tags:'因子投资 · 系统化',
+      blurb:'因子投资代表。你和他都极度理性、攻守适中，用系统化的因子模型而非拍脑袋做决策——纪律是你们最锋利的武器。' },
+    { id:'shaw', name:'大卫·肖', en:'David Shaw', emoji:'💻', school:'quant',
+      risk:4, mind:-8, p6:{risk:60,data:98,horizon:20,contra:50,focus:25,decisive:88}, tags:'算法 · 科技驱动',
+      blurb:'量化投资代表，计算机科学家出身。你和他一样用算法和技术武装自己，把投资变成一门精密的工程——理性、前沿、滴水不漏。' },
+    { id:'ackman', name:'比尔·阿克曼', en:'Bill Ackman', emoji:'🔥', school:'activist',
+      risk:7, mind:6, p6:{risk:80,data:60,horizon:60,contra:85,focus:95,decisive:80}, tags:'集中下注 · 公开维权',
+      blurb:'激进投资代表。你和他都敢集中下重注、为信念公开发声，押上声誉去赌一个判断——既有冲劲又带感染力，是创造价值也制造话题的那种人。' },
+    { id:'icahn', name:'卡尔·伊坎', en:'Carl Icahn', emoji:'♟️', school:'activist',
+      risk:7, mind:2, p6:{risk:78,data:70,horizon:50,contra:88,focus:82,decisive:90}, tags:'公司治理 · 并购重组',
+      blurb:'事件驱动大师。你和他都善于在别人看不到价值的地方出手，敢于推动变革、重塑公司——攻击性强，但每一步都算得清清楚楚。' },
+    { id:'loeb', name:'丹尼尔·勒布', en:'Daniel Loeb', emoji:'🦈', school:'activist',
+      risk:6, mind:4, p6:{risk:72,data:72,horizon:45,contra:78,focus:75,decisive:82}, tags:'事件驱动 · 深度研究',
+      blurb:'激进价值代表。你和他都把深度研究和果断出手结合起来，敢在关键节点推动变化——锋利、敏锐，理性里带着一点战斗的热血。' },
+  ],
+};
+
+// 6 维匹配：玩家 6 维画像 p6{risk,data,horizon,contra,focus,decisive}（0~100）
+// 与每位大师的 p6 算欧氏距离，最近的即最像
+MASTERS.DIM6 = ['risk','data','horizon','contra','focus','decisive'];
+MASTERS.match = function(p6){
+  const keys = MASTERS.DIM6;
+  const ranked = MASTERS.list.map(m=>{
+    let s=0;
+    for(const k of keys){ const d=(p6[k]||50)-(m.p6?m.p6[k]:50); s+=d*d; }
+    return { m, d: Math.sqrt(s) };
+  }).sort((a,b)=> a.d - b.d);
+  return {
+    best: ranked[0].m,
+    others: ranked.slice(1, 3).map(x=>x.m),   // 次相似 2 位
+    school: MASTERS.schools[ranked[0].m.school],
+  };
+};
