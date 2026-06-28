@@ -80,6 +80,19 @@
 
   /* 公式/文案块(doc+cfg) */
   .formula{background:rgba(26,23,20,.045);border-left:3px solid var(--accent);border-radius:0 7px 7px 0;padding:11px 14px;margin:8px 0;font-size:clamp(12px,3vw,13px);line-height:1.95;font-family:"SF Mono",Menlo,Consolas,monospace;color:var(--ink);overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:pre-wrap;word-break:break-word;}
+.gate-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.gate-item{display:flex;align-items:center;gap:8px;background:rgba(26,23,20,.04);border-radius:9px;padding:10px 12px;}
+.gate-ic{font-size:18px;flex:0 0 auto;}
+.gate-nm{flex:1;font-weight:600;font-size:13px;line-height:1.2;display:flex;flex-direction:column;}
+.gate-nm i{font-style:normal;font-size:10px;color:#a39b8e;font-weight:500;font-family:"SF Mono",Menlo,monospace;}
+.gate-n{flex:0 0 auto;font-weight:800;font-size:15px;color:var(--accent,#b8860b);font-variant-numeric:tabular-nums;}
+.invest-rule{background:rgba(184,134,11,.06);border-radius:10px;padding:11px 13px;}
+.ir-h{font-weight:700;font-size:13px;margin-bottom:8px;color:#8a6d1b;}
+.ir-row{display:flex;align-items:center;gap:9px;font-size:13px;margin:5px 0;}
+.ir-cond{font-weight:600;flex:0 0 auto;font-variant-numeric:tabular-nums;}
+.ir-arr{color:#b8860b;font-weight:800;}
+.ir-res{color:var(--ink-soft,#6b6358);}
+.ir-res.ok{color:#2e7d32;font-weight:600;}
   .txt{font-size:clamp(12px,3vw,13px);color:var(--ink-soft);line-height:1.8;}
   .txt b{color:var(--ink);}
   code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.92em;background:rgba(26,23,20,.06);padding:1px 5px;border-radius:4px;}
@@ -205,12 +218,12 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 数据＝游戏真实配置实时读取</div>
 </div>
 
-<script src="config.js?v=20260629admin7"></script>
-<script src="data-periods.js?v=20260629admin7"></script>
-<script src="data-endings.js?v=20260629admin7"></script>
-<script src="data-persona5.js?v=20260629admin7"></script>
-<script src="data-profile6.js?v=20260629admin7"></script>
-<script src="engine-sfx.js?v=20260629admin7"></script>
+<script src="config.js?v=20260629admin8"></script>
+<script src="data-periods.js?v=20260629admin8"></script>
+<script src="data-endings.js?v=20260629admin8"></script>
+<script src="data-persona5.js?v=20260629admin8"></script>
+<script src="data-profile6.js?v=20260629admin8"></script>
+<script src="engine-sfx.js?v=20260629admin8"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
@@ -353,15 +366,16 @@ function renderDoc(){
   h+='<div class="txt">时代序号 0~4（平滑递增，越后期越耗）。结果附加：C档 <b>−'+C.health.extraOnVeryBad+'</b>、B档 <b>−'+C.health.extraOnBad+'</b>、SS档 <b>+'+C.health.bonusOnGreat+'</b>。健康始终取整。<br><b>健康归零</b>：综合评分 ×'+C.deadPenalty+'；若同时业绩<'+C.healthDeath.earlyOutTrackCap+' → 触发「健康透支」结局。出局率约 12-13%。</div></div>';
   // 门槛系统
   h+='<div class="panel"><h2>🔒 门槛系统</h2>';
-  h+='<div class="txt" style="margin-bottom:10px">每个项目<b>最多 1 个硬门槛</b>：属性 < 门槛即锁定（所见即所得）。全 67 项中 21 项有门槛，每站保证 ≥1 个无门槛退路。</div>';
-  h+='<div class="formula" style="border-left-color:var(--blue)"><b>四类硬门槛</b>'
-    +'\n💰 资本门槛 (aum) — 7 项'
-    +'\n📈 业绩门槛 (track) — 7 项'
-    +'\n❤️ 健康门槛 (health) — 6 项'
-    +'\n🤝 人脉门槛 (net) — 1 项</div>';
-  h+='<div class="formula" style="border-left-color:#b8860b"><b>投入约束</b>'
-    +'\n资本 ≥ 投入 → 正常投资'
-    +'\n资本 < 投入 → 小额参投（回报 ×'+C.smallTicketFactor+'）</div>';
+  h+='<div class="txt" style="margin-bottom:12px">每个项目<b>最多 1 个硬门槛</b>：属性 < 门槛即锁定（所见即所得）。全 67 项中 <b>21 项</b>有门槛，每站保证 ≥1 个无门槛退路。</div>';
+  h+='<div class="gate-grid">';
+  h+='<div class="gate-item"><span class="gate-ic">💰</span><span class="gate-nm">资本门槛<i>aum</i></span><span class="gate-n">7</span></div>';
+  h+='<div class="gate-item"><span class="gate-ic">📈</span><span class="gate-nm">业绩门槛<i>track</i></span><span class="gate-n">7</span></div>';
+  h+='<div class="gate-item"><span class="gate-ic">❤️</span><span class="gate-nm">健康门槛<i>health</i></span><span class="gate-n">6</span></div>';
+  h+='<div class="gate-item"><span class="gate-ic">🤝</span><span class="gate-nm">人脉门槛<i>net</i></span><span class="gate-n">1</span></div>';
+  h+='</div>';
+  h+='<div class="invest-rule"><div class="ir-h">💵 投入约束</div>'
+    +'<div class="ir-row"><span class="ir-cond">资本 ≥ 投入</span><span class="ir-arr">→</span><span class="ir-res ok">正常投资</span></div>'
+    +'<div class="ir-row"><span class="ir-cond">资本 &lt; 投入</span><span class="ir-arr">→</span><span class="ir-res">小额参投 ×'+C.smallTicketFactor+'</span></div></div>';
   h+='</div>';
   // 结局称号门槛(只数值规则,完整文案在「文案」tab)
   if(typeof DATA_ENDINGS!=="undefined" && DATA_ENDINGS.endingMeta){
@@ -844,7 +858,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260629admin7';
+    bgmAudio.src='audio/'+file+'?v=20260629admin8';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };
