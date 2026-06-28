@@ -175,10 +175,6 @@
     <!-- 🎵 音效试听 -->
     <div class="panel" id="sfxPanel">
       <h2>🎵 音效试听</h2>
-      <div class="sub" style="margin:2px 0 12px;display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-soft)">
-        <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent);flex:0 0 22px"><span style="width:0;height:0;border-style:solid;border-width:5px 0 5px 8px;border-color:transparent transparent transparent #fff;margin-left:2px"></span></span>
-        <span><b>点任意一行即可播放试听</b>。</span>
-      </div>
       <div id="sfxList"></div>
     </div>
   </div>
@@ -205,12 +201,12 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 数据＝游戏真实配置实时读取</div>
 </div>
 
-<script src="config.js?v=20260629admin5"></script>
-<script src="data-periods.js?v=20260629admin5"></script>
-<script src="data-endings.js?v=20260629admin5"></script>
-<script src="data-persona5.js?v=20260629admin5"></script>
-<script src="data-profile6.js?v=20260629admin5"></script>
-<script src="engine-sfx.js?v=20260629admin5"></script>
+<script src="config.js?v=20260629admin6"></script>
+<script src="data-periods.js?v=20260629admin6"></script>
+<script src="data-endings.js?v=20260629admin6"></script>
+<script src="data-persona5.js?v=20260629admin6"></script>
+<script src="data-profile6.js?v=20260629admin6"></script>
+<script src="engine-sfx.js?v=20260629admin6"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
@@ -358,15 +354,18 @@ function renderDoc(){
   if(typeof DATA_ENDINGS!=="undefined" && DATA_ENDINGS.endingMeta){
     var EM=DATA_ENDINGS.endingMeta, ET=DATA_ENDINGS.endingTiers;
     var eorder=["legend","master","veteran","steady","rollercoaster","exit","earlyout"];
-    h+='<div class="panel"><h2>🏆 结局称号 · 门槛 <span style="font-size:11px;color:#8c857a;font-weight:600">完整文案见「文案」tab</span></h2><table class="deftbl">';
+    h+='<div class="panel"><h2>🏆 结局称号 · 门槛 <span style="font-size:11px;color:#8c857a;font-weight:600">完整文案见「文案」tab</span></h2>';
     eorder.forEach(function(k){
       var m=EM[k]; if(!m)return;
       var to=ET.find(function(t){return t.key===k;});
       var cut=(k==="earlyout")?("健康归零 且 业绩 < "+C.healthDeath.earlyOutTrackCap):(k==="exit")?("综合评分 < "+tierMin("rollercoaster")):(to?("综合评分 ≥ "+to.min):"—");
       var col=esc(m.color||"#b8860b");
-      h+='<tr><td style="color:'+col+';font-weight:700;white-space:nowrap">'+esc(m.emoji)+" "+esc(m.title)+'</td><td>'+esc(cut)+'</td></tr>';
+      h+='<div class="formula" style="border-left-color:'+col+';display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">';
+      h+='<b style="color:'+col+';font-size:14px">'+esc(m.emoji)+" "+esc(m.title)+'</b>';
+      h+='<span style="color:#8c857a;font-size:12px;font-weight:700;white-space:nowrap">'+esc(cut)+'</span>';
+      h+='</div>';
     });
-    h+='</table></div>';
+    h+='</div>';
   }
   // 参数定义
   h+='<div class="panel"><h2>📋 名词与参数定义</h2><table class="deftbl">';
@@ -426,6 +425,15 @@ function renderConfig(){
   if(T.btnAfterPeriod){h+='<div class="pgrp-t" style="margin-top:12px">时代落幕按钮文案 (btnAfterPeriod)</div>'+kvTable(T.btnAfterPeriod);}
   if(T.titles){h+='<div class="pgrp-t" style="margin-top:12px">投资人头衔进阶 (titles)</div><div class="txt">'+T.titles.map(function(t,i){return (i+1)+'. '+esc(t);}).join(' → ')+'</div>';}
   h+='</div>';
+
+  // ⚙️ 技术配置(音乐/存档/其他)
+  h+='<div class="panel"><h2>🎵 音乐参数 <span style="font-size:11px;color:#8c857a;font-weight:600">CONFIG.music</span></h2>'+kvTable(C.music)+'</div>';
+  h+='<div class="panel"><h2>💾 本地存档键名 <span style="font-size:11px;color:#8c857a;font-weight:600">CONFIG.storage</span></h2>'+kvTable(C.storage)+'</div>';
+  h+='<div class="panel"><h2>⚙️ 其他配置</h2><table class="deftbl">';
+  h+='<tr><td>mbtiMidThreshold</td><td>'+esc(C.mbtiMidThreshold)+'（MBTI 某维度 |分|≤此值视为接近中点/均衡倾向）</td></tr>';
+  h+='<tr><td>scoreClampMax</td><td>'+esc(C.scoreClampMax)+'（综合评分上限）</td></tr>';
+  h+='<tr><td>scoreTiersForSfx</td><td>结局音效门槛 big≥'+esc(C.scoreTiersForSfx.big)+' / mid≥'+esc(C.scoreTiersForSfx.mid)+' / neutral≥'+esc(C.scoreTiersForSfx.neutral)+'</td></tr>';
+  h+='</table></div>';
 
   // 🏆 结局称号完整文案(名言+解读;门槛数值在「机制」tab)
   if(typeof DATA_ENDINGS!=="undefined" && DATA_ENDINGS.endingMeta){
@@ -492,14 +500,7 @@ function renderConfig(){
     h+='</div>';
   }
 
-  // ⚙️ 技术配置(音乐/存档/其他)
-  h+='<div class="panel"><h2>🎵 音乐参数 <span style="font-size:11px;color:#8c857a;font-weight:600">CONFIG.music</span></h2>'+kvTable(C.music)+'</div>';
-  h+='<div class="panel"><h2>💾 本地存档键名 <span style="font-size:11px;color:#8c857a;font-weight:600">CONFIG.storage</span></h2>'+kvTable(C.storage)+'</div>';
-  h+='<div class="panel"><h2>⚙️ 其他配置</h2><table class="deftbl">';
-  h+='<tr><td>mbtiMidThreshold</td><td>'+esc(C.mbtiMidThreshold)+'（MBTI 某维度 |分|≤此值视为接近中点/均衡倾向）</td></tr>';
-  h+='<tr><td>scoreClampMax</td><td>'+esc(C.scoreClampMax)+'（综合评分上限）</td></tr>';
-  h+='<tr><td>scoreTiersForSfx</td><td>结局音效门槛 big≥'+esc(C.scoreTiersForSfx.big)+' / mid≥'+esc(C.scoreTiersForSfx.mid)+' / neutral≥'+esc(C.scoreTiersForSfx.neutral)+'</td></tr>';
-  h+='</table></div>';
+
 
   document.getElementById('tab-cfg').innerHTML=h;
 }
@@ -826,7 +827,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260629admin5';
+    bgmAudio.src='audio/'+file+'?v=20260629admin6';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };
