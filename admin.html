@@ -226,12 +226,12 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 所有数值实时读自游戏真实配置，所见即所玩</div>
 </div>
 
-<script src="config.js?v=20260629admin17"></script>
-<script src="data-periods.js?v=20260629admin17"></script>
-<script src="data-endings.js?v=20260629admin17"></script>
-<script src="data-persona5.js?v=20260629admin17"></script>
-<script src="data-profile6.js?v=20260629admin17"></script>
-<script src="engine-sfx.js?v=20260629admin17"></script>
+<script src="config.js?v=20260629admin18"></script>
+<script src="data-periods.js?v=20260629admin18"></script>
+<script src="data-endings.js?v=20260629admin18"></script>
+<script src="data-persona5.js?v=20260629admin18"></script>
+<script src="data-profile6.js?v=20260629admin18"></script>
+<script src="engine-sfx.js?v=20260629admin18"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
@@ -281,10 +281,12 @@ function activateTab(p){
   document.querySelectorAll('.page').forEach(function(pg){pg.classList.remove('on');});
   tab.classList.add('on');
   document.getElementById('tab-'+p).classList.add('on');
-  if(p==='stats'&&!loaded.stats){loaded.stats=1;loadStats();}
-  if(p==='doc'&&!loaded.doc){loaded.doc=1;renderDoc();initSfx();}
-  if(p==='tune'&&!loaded.tune){loaded.tune=1;initTune();}
-  if(p==='cfg'&&!loaded.cfg){loaded.cfg=1;renderConfig();}
+  // 重型初始化推到下一帧,让 tab 视觉切换先完成,避免"点了卡一下才进"的延迟感
+  function defer(fn){if(window.requestAnimationFrame){requestAnimationFrame(function(){requestAnimationFrame(fn);});}else{setTimeout(fn,0);}}
+  if(p==='stats'&&!loaded.stats){loaded.stats=1;defer(loadStats);}
+  if(p==='doc'&&!loaded.doc){loaded.doc=1;defer(function(){renderDoc();initSfx();});}
+  if(p==='tune'&&!loaded.tune){loaded.tune=1;var lv=document.getElementById('live');if(lv)lv.textContent='⏳ 首次进入,正在准备 10000 局沙盘…';defer(initTune);}
+  if(p==='cfg'&&!loaded.cfg){loaded.cfg=1;defer(renderConfig);}
 }
 function boot(){
   document.getElementById('logout').onclick=logout;
@@ -873,7 +875,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260629admin17';
+    bgmAudio.src='audio/'+file+'?v=20260629admin18';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };
