@@ -247,7 +247,6 @@ try{
   window.addEventListener('pageshow', __wake, {passive:true});
 }catch(e){}
 window.Sfx = Sfx;  // 显式挂全局,让 if(window.Sfx) 检查能过
-if(typeof window!=='undefined'&&typeof Sfx!=='undefined')window.Sfx=Sfx;
 
 /* ===== engine-music.js ===== */
 // 背景音乐引擎 v2：播放真实 mp3 文件（各年代金曲风改编，循环）
@@ -320,4 +319,9 @@ const Music = (function(){
     }
   };
 })();
-if(typeof window!=='undefined'&&typeof Music!=='undefined')window.Music=Music;
+
+/* ===== 全局规范化(幂等) ===== */
+if(typeof window!=='undefined'){
+  if(typeof Sfx!=='undefined')window.Sfx=Sfx;
+  if(typeof Music!=='undefined')window.Music=Music;
+}

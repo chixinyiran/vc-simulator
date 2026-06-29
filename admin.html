@@ -235,7 +235,7 @@
         <button class="btn" id="rerun">▶ 重新模拟</button>
         <button class="btn reset" id="reset">↺ 重置真实值</button>
       </div>
-      <div class="note">拖滑块或直接输数字改参 → 自动重跑 10000 局看分布。这里只是沙盘推演，调满意后需手动写回 config.js / data-endings.js 才会生效。</div>
+      <div class="note">拖滑块或直接输数字改参 → 自动重跑 10000 局看分布。这里只是沙盘推演，调满意后需手动写回 config.js / data-bundle.js 才会生效。</div>
     </div>
     <div class="live" id="live">⏳ 模拟中…</div>
     <div id="dist"></div>
@@ -248,9 +248,9 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 所有数值实时读自游戏真实配置，所见即所玩</div>
 </div>
 
-<script src="config.js?v=20260629admin26"></script>
-<script src="data-bundle.js?v=20260629admin26"></script>
-<script src="engine.js?v=20260629admin26"></script>
+<script src="config.js?v=20260629admin27"></script>
+<script src="data-bundle.js?v=20260629admin27"></script>
+<script src="engine.js?v=20260629admin27"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
@@ -370,7 +370,7 @@ function logout(){try{localStorage.removeItem(AUTH_KEY);}catch(e){}location.relo
       var real=(rows&&rows[0]&&rows[0].pin)||'';
       if(v&&v===real){try{localStorage.setItem(AUTH_KEY,String(Date.now()));}catch(e){}pass();}
       else err.textContent='口令错误';
-    }).catch(function(){err.textContent='网络错误,稍后重试';});
+    }).catch(function(){err.textContent='网络错误，稍后重试';});
   }
   btn.addEventListener('click',tryLogin);
   pin.addEventListener('keydown',function(e){if(e.key==='Enter')tryLogin();});
@@ -412,7 +412,7 @@ function loadStats(){
     var R=res[0]||[],V=res[1]||[];
     if(R.code){document.getElementById('statsContent').innerHTML='<div class="loading">读取失败:'+esc(R.message||'')+'</div>';return;}
     renderStats(R,V);
-  }).catch(function(){document.getElementById('statsContent').innerHTML='<div class="loading">加载出错,请刷新重试</div>';});
+  }).catch(function(){document.getElementById('statsContent').innerHTML='<div class="loading">加载出错，请刷新重试</div>';});
 }
 function renderStats(R,V){
   var total=R.length,players={};R.forEach(function(r){if(r.player_id)players[r.player_id]=1;});
@@ -586,7 +586,7 @@ function renderConfig(){
   if(typeof DATA_ENDINGS!=="undefined" && DATA_ENDINGS.endingMeta){
     var EM=DATA_ENDINGS.endingMeta;
     var eorder=["legend","master","veteran","steady","rollercoaster","exit","earlyout"];
-    h+='<div class="panel"><h2>🏆 结局称号 · 文案 <span style="font-size:11px;color:#8c857a;font-weight:600">data-endings.js · 门槛见「机制」tab</span></h2>';
+    h+='<div class="panel"><h2>🏆 结局称号 · 文案 <span style="font-size:11px;color:#8c857a;font-weight:600">data-bundle.js(ENDINGS) · 门槛见「机制」tab</span></h2>';
     eorder.forEach(function(k){
       var m=EM[k]; if(!m)return;
       var col=esc(m.color||"#b8860b");
@@ -599,10 +599,10 @@ function renderConfig(){
     h+='</div>';
   }
 
-  // 五维投资人格(从 data-persona5.js 读, 6人格←→6大师)
+  // 五维投资人格(从 data-bundle.js(PERSONA5) 读, 6人格←→6大师)
   if(typeof PERSONA5!=="undefined" && PERSONA5.archetypes){
     var MNAME={buffett:'巴菲特',simons:'西蒙斯',soros:'索罗斯',wood:'木头姐',trumpish:'豪赌狂人',muskish:'钢铁狂想家'};
-    h+='<div class="panel"><h2>\u{1F3AD} 五维投资人格 · 6型称号 <span style="font-size:11px;color:#8c857a;font-weight:600">data-persona5.js · 对应6大师</span></h2>';
+    h+='<div class="panel"><h2>\u{1F3AD} 五维投资人格 · 6型称号 <span style="font-size:11px;color:#8c857a;font-weight:600">data-bundle.js(PERSONA5) · 对应6大师</span></h2>';
     PERSONA5.archetypes.forEach(function(s){
       var col=esc(s.color||"#5a6470");
       var ac=s.anchor||{};
@@ -618,9 +618,9 @@ function renderConfig(){
     h+='</div>';
   }
 
-  // 五维释义(从 data-profile6.js 读)
+  // 五维释义(从 data-bundle.js(PROFILE) 读)
   if(typeof PROFILE!=="undefined" && PROFILE.dims){
-    h+='<div class="panel"><h2>\u{1F4CA} 五维释义 <span style="font-size:11px;color:#8c857a;font-weight:600">data-profile6.js · dims</span></h2>';
+    h+='<div class="panel"><h2>\u{1F4CA} 五维释义 <span style="font-size:11px;color:#8c857a;font-weight:600">data-bundle.js(PROFILE) · dims</span></h2>';
     PROFILE.dims.forEach(function(dm){
       h+='<div class="formula" style="border-left-color:var(--blue)">';
       h+='<b>'+esc(dm.axis)+'：'+esc(dm.low)+' \u2190 '+esc(dm.key)+' \u2192 '+esc(dm.high)+'</b>';
@@ -631,9 +631,9 @@ function renderConfig(){
     h+='</div>';
   }
 
-  // 五维测试 · 情境题(从 data-profile6.js 读, P1-P5 单维)
+  // 五维测试 · 情境题(从 data-bundle.js(PROFILE) 读, P1-P5 单维)
   if(typeof PROFILE!=="undefined" && PROFILE.scenarios){
-    h+='<div class="panel"><h2>\u2753 五维测试 · 情境题 <span style="font-size:11px;color:#8c857a;font-weight:600">data-profile6.js · scenarios</span></h2>';
+    h+='<div class="panel"><h2>\u2753 五维测试 · 情境题 <span style="font-size:11px;color:#8c857a;font-weight:600">data-bundle.js(PROFILE) · scenarios</span></h2>';
     Object.keys(PROFILE.scenarios).forEach(function(pk){
       var sc=PROFILE.scenarios[pk];
       h+='<div class="formula" style="border-left-color:var(--blue)">';
@@ -837,7 +837,7 @@ function runSim(){
     var tnm={hot:'🔥风口hot',up:'📈顺势up',down:'📉逆势down',safe:'🛡️稳健safe'};
     var tcol={hot:'#c46a3a',up:'#3c6b4f',down:'#a8453a',safe:'#5a6470'};
     h+='<div class="panel"><h2>🎯 标的趋势分布 <span style="font-size:11px;font-weight:600;color:#8c857a">共'+tot+'项</span></h2>';
-    h+='<div class="txt" style="font-size:11px;color:#8c857a;margin-bottom:10px;">目标比例: 风口30% / 顺势50% / 逆势15% / 稳健5% —— 调整需手改 data-periods.js 各标的 trend</div>';
+    h+='<div class="txt" style="font-size:11px;color:#8c857a;margin-bottom:10px;">目标比例: 风口30% / 顺势50% / 逆势15% / 稳健5% —— 调整需手改 data-bundle.js(DATA_PERIODS) 各标的 trend</div>';
     ['hot','up','down','safe'].forEach(function(k){var pct=all[k]/tot*100;
       h+='<div class="row"><div class="nm">'+tnm[k]+'</div><div class="barwrap"><div class="bar" style="width:'+Math.min(100,pct*1.6)+'%;background:'+tcol[k]+'"></div></div><div class="pct">'+pct.toFixed(0)+'%</div></div>';});
     var eh=perEra.map(function(e){return e.name+' 🔥'+e.c.hot+' 📈'+e.c.up+' 📉'+e.c.down+(e.c.safe?' 🛡️'+e.c.safe:'');}).join(' · ');
@@ -986,7 +986,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260629admin26';
+    bgmAudio.src='audio/'+file+'?v=20260629admin27';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };

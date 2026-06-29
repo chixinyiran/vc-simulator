@@ -1465,7 +1465,6 @@ const DATA_PERIODS = {
     }
   ]
 };
-if(typeof window!=='undefined'&&typeof DATA_PERIODS!=='undefined')window.DATA_PERIODS=DATA_PERIODS;
 
 /* ===== data-endings.js ===== */
 // ===== 结局阈值 + 结局称号文案 =====
@@ -1505,7 +1504,6 @@ const DATA_ENDINGS = {
       summary:"你太拼了。无数个不眠之夜、无数场酒局应酬、无数次在鬼门关前透支自己。终于，在生涯尚未走到终点时，身体彻底垮了。你或许投出过漂亮的项目，攒下过不错的声望，但这一切，都在病床前显得苍白。这是一个迟来的提醒：投资是一场马拉松，活着跑到终点，才有资格谈胜负。" },
   },
 };
-if(typeof window!=='undefined'&&typeof DATA_ENDINGS!=='undefined')window.DATA_ENDINGS=DATA_ENDINGS;
 
 /* ===== data-persona5.js ===== */
 // 五维投资人格画像数据层（与 6 大师一一对应，同源）
@@ -1585,7 +1583,6 @@ const PERSONA5 = {
 };
 
 if (typeof window !== 'undefined') window.PERSONA5 = PERSONA5;
-if(typeof window!=='undefined'&&typeof PERSONA5!=='undefined')window.PERSONA5=PERSONA5;
 
 /* ===== data-profile6.js ===== */
 // 投资人格 5 维画像数据层（每个时代一道题，纯测一维）
@@ -1661,7 +1658,6 @@ const PROFILE = {
       ]},
   },
 };
-if(typeof window!=='undefined'&&typeof PROFILE!=='undefined')window.PROFILE=PROFILE;
 
 /* ===== data-masters.js ===== */
 // 投资大师匹配数据层 - 把玩家的 risk/mind 坐标映射到最像的投资大师
@@ -1724,4 +1720,12 @@ MASTERS.match = function(p6){
     school: MASTERS.schools[ranked[0].m.school],
   };
 };
-if(typeof window!=='undefined'&&typeof MASTERS!=='undefined')window.MASTERS=MASTERS;
+
+/* ===== 全局规范化(合并产物统一挂载,幂等) ===== */
+if(typeof window!=='undefined'){
+  if(typeof DATA_PERIODS!=='undefined')window.DATA_PERIODS=DATA_PERIODS;
+  if(typeof DATA_ENDINGS!=='undefined')window.DATA_ENDINGS=DATA_ENDINGS;
+  if(typeof PERSONA5!=='undefined')window.PERSONA5=PERSONA5;
+  if(typeof PROFILE!=='undefined')window.PROFILE=PROFILE;
+  if(typeof MASTERS!=='undefined')window.MASTERS=MASTERS;
+}
