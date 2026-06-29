@@ -55,6 +55,8 @@ function getPlayerId(){
 }
 function getPlayerName(){ return lsGet(CONFIG.storage.playerName)||''; }
 function setPlayerName(n){ lsSet(CONFIG.storage.playerName,n); }
+// 简易 HTML 转义(防 XSS:邀请人/玩家名等用户可控字符串拼到 innerHTML 前必须过)
+function escapeHTML(s){return String(s==null?"":s).replace(/[&<>"'`]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;","`":"&#96;"}[c];});}
 // 解析URL里的邀请人(?ref=ID&n=昵称)
 function getInviter(){
   try{
@@ -209,7 +211,7 @@ function initCover(){
   document.getElementById('coverCredit').innerHTML=U.coverCredit;
   // 被邀请横幅
   const inv=getInviter(); const ib=document.getElementById('inviteBanner');
-  if(inv){ ib.innerHTML=CONFIG.text.invited.replace(/\$\{name\}/g,inv.name); ib.style.display='block'; lsSet('vcsim_invited_by',inv); }
+  if(inv){ ib.innerHTML=CONFIG.text.invited.replace(/\$\{name\}/g,escapeHTML(inv.name)); ib.style.display='block'; lsSet('vcsim_invited_by',inv); }
   else ib.style.display='none';
   getPlayerId(); // 确保本机有专属ID
   reportVisit(); // 上报访问(含邀请人)
@@ -370,8 +372,10 @@ function showScenario(){
 function pickScenario(i){
   if(window.Sfx)Sfx.play('pick');
   const p=GAME.periods[pIdx];
-  const o=PROFILE.scenarios[p.id].opts[i];
-  if(o.e){for(const k in o.e)mbti[k]+=o.e[k];}
+  const SC=(typeof PROFILE!=='undefined'&&PROFILE.scenarios&&PROFILE.scenarios[p.id])?PROFILE.scenarios[p.id]:(typeof MBTI!=='undefined'&&MBTI.scenarios?MBTI.scenarios[p.id]:null);
+  if(!SC){return;}
+  const o=SC.opts[i];
+  if(o.e){for(const k in o.e){ if(mbti[k]==null) mbti[k]=0; mbti[k]+=o.e[k]; } }
   // 选中反馈:仅选中的选项出波纹+弹入效果
   document.querySelectorAll('.sc-opt').forEach(el=>el.classList.toggle('picked',+el.dataset.i===i));
   const sel=document.querySelector('.sc-opt[data-i="'+i+'"]');
@@ -730,6 +734,7 @@ function showEnding(healthDead){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function profile6Scores(){
+  if(typeof PROFILE==='undefined') return null;
   // 把累积的 5 维原始分(单题±4)归一化到 0~100，50 中点
   const N = (typeof PROFILE!=='undefined' && PROFILE.norm) ? PROFILE.norm : 9;
   const out = {};
@@ -741,6 +746,7 @@ function profile6Scores(){
 }
 // 画雷达图：playerScores 实线，masterScores 虚线
 function drawRadar(canvas, playerScores, masterScores, accent){
+  if(typeof PROFILE==='undefined') return;
   const dims = PROFILE.dims;
   const n = dims.length;
   const dpr = window.devicePixelRatio || 2;
@@ -781,7 +787,7 @@ function drawRadar(canvas, playerScores, masterScores, accent){
     ctx.beginPath();
     for(let i=0;i<n;i++){
       const ang = -Math.PI/2 + i*2*Math.PI/n;
-      const v = (scores[dims[i].key]||50)/100;
+      const v = (scores[dims[i].key]!=null?scores[dims[i].key]:50)/100;
       const x = cx + R*v*Math.cos(ang), y = cy + R*v*Math.sin(ang);
       i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     }
@@ -795,7 +801,7 @@ function drawRadar(canvas, playerScores, masterScores, accent){
     if(!dashed){
       for(let i=0;i<n;i++){
         const ang = -Math.PI/2 + i*2*Math.PI/n;
-        const v = (scores[dims[i].key]||50)/100;
+        const v = (scores[dims[i].key]!=null?scores[dims[i].key]:50)/100;
         const x = cx + R*v*Math.cos(ang), y = cy + R*v*Math.sin(ang);
         ctx.beginPath(); ctx.arc(x,y,3,0,2*Math.PI); ctx.fillStyle=color; ctx.fill();
       }
@@ -821,7 +827,7 @@ function renderMBTI(){
       <span class="lg lg-you"><i></i>你</span>
       <span class="lg lg-master"><i></i>${b.name.replace(/\(.*\)/,'')}</span>
     </div>` : '';
-  const dimList = PROFILE.dims.map(d=>{
+  const dimList = (typeof PROFILE==='undefined') ? '' : PROFILE.dims.map(d=>{
     const v = ps[d.key];
     const label = v>=58?d.high : (v<=42?d.low : '均衡');
     return `<div class="p6-row"><span class="p6-axis">${d.axis}</span><div class="p6-bar"><i style="width:${v}%"></i></div><span class="p6-val">${label}</span></div>`;

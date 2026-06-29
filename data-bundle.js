@@ -1546,7 +1546,7 @@ const PERSONA5 = {
     let best=null, bd=1e9;
     for(const a of this.archetypes){
       let s=0;
-      for(const k of this.DIM){ const d=(ps[k]||50)-a.anchor[k]; s+=d*d; }
+      for(const k of this.DIM){ const d=(ps[k]!=null?ps[k]:50)-a.anchor[k]; s+=d*d; }
       const dist=Math.sqrt(s);
       if(dist<bd){ bd=dist; best=a; }
     }
@@ -1707,7 +1707,7 @@ MASTERS.match = function(p6){
   const keys = MASTERS.DIM6;
   const ranked = MASTERS.list.map(m=>{
     let s=0;
-    for(const k of keys){ const d=(p6[k]||50)-(m.p6?m.p6[k]:50); s+=d*d; }
+    for(const k of keys){ const d=(p6[k]!=null?p6[k]:50)-(m.p6?m.p6[k]:50); s+=d*d; }
     return { m, d: Math.sqrt(s) };
   }).sort((a,b)=> a.d - b.d);
   // 相似度:最大距离 sqrt(5*100^2)=223.6,映射为 0~100% 百分比

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>中国创业投资模拟器 · 后台</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -16,7 +16,8 @@
     line-height:1.7;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;}
   body{padding:18px 0 44px;min-height:100vh;min-height:100dvh;}
   .wrap{max-width:860px;margin:0 auto;padding:0 20px;
-    padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));}
+    padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));
+    padding-top:env(safe-area-inset-top);padding-bottom:max(20px,env(safe-area-inset-bottom));}
 
   /* ── 顶部 ── */
   /* 首页大气hero区 */
@@ -27,7 +28,7 @@
   .hero-sub{font-size:clamp(12px,2.9vw,14px);color:var(--ink-faint);letter-spacing:.04em;font-weight:500;}
   .logout{position:absolute;top:14px;right:14px;color:var(--accent);cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.04em;display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:999px;border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);background:color-mix(in srgb,var(--accent) 9%,transparent);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:all .22s cubic-bezier(.4,0,.2,1);box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 40%,transparent);}
   .logout::before{content:"⏻";font-size:13px;line-height:1;}
-  .logout:hover{color:var(--paper);background:var(--accent);border-color:var(--accent);box-shadow:0 0 16px -2px color-mix(in srgb,var(--accent) 65%,transparent),0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);transform:translateY(-1px);}
+  @media(hover:hover){.logout:hover{color:var(--paper);background:var(--accent);border-color:var(--accent);box-shadow:0 0 16px -2px color-mix(in srgb,var(--accent) 65%,transparent),0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent);transform:translateY(-1px);}}
   .logout:active{transform:translateY(0);}
   @media(min-width:768px){.hero{padding:44px 32px 32px;}.hero-title{font-size:40px;}.hero-name{font-size:21px;}}
 
@@ -73,7 +74,7 @@
   .pieCenter .c-name{font-size:14px;font-weight:800;fill:var(--ink-soft);letter-spacing:.04em;}
   .pieCenter .c-pct{font-size:28px;font-weight:900;fill:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:.02em;}
   .pieCenter .c-cnt{font-size:12px;font-weight:700;fill:var(--ink-faint);font-variant-numeric:tabular-nums;}
-  .pieLegend{flex:1 1 240px;min-width:220px;display:flex;flex-direction:column;gap:4px;}
+  .pieLegend{flex:1 1 240px;min-width:180px;display:flex;flex-direction:column;gap:4px;}
   .pieLegend .lg{display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:9px;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;border:1px solid transparent;}
   .pieLegend .lg.act{background:rgba(138,90,58,.07);border-color:rgba(138,90,58,.18);transform:translateX(3px);box-shadow:0 2px 6px rgba(26,23,20,.06);}
   @media(hover:hover){.pieLegend .lg:hover{background:rgba(138,90,58,.07);border-color:rgba(138,90,58,.18);transform:translateX(3px);box-shadow:0 2px 6px rgba(26,23,20,.06);}}
@@ -251,16 +252,16 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 所有数值实时读自游戏真实配置，所见即所玩</div>
 </div>
 
-<script src="config.js?v=20260629admin36"></script>
-<script src="data-bundle.js?v=20260629admin36"></script>
+<script src="config.js?v=20260630admin37"></script>
+<script src="data-bundle.js?v=20260630admin37"></script>
 <script>window.__NO_AUTO_AUDIO__=true;/*后台禁用全局音频自动解锁,避免iOS点空白处触发"播放动作";试听由row.onclick主动Sfx.unlock*/</script>
-<script src="engine.js?v=20260629admin36"></script>
+<script src="engine.js?v=20260630admin37"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
 var AUTH_KEY='dash_auth_ts_vc', AUTH_TTL=2*3600*1000;
 var SB=(typeof CONFIG!=='undefined'&&CONFIG.supabase)||{};
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function esc(s){return String(s==null?'':s).replace(/[&<>"'`]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c];});}
 function showBr(s){return esc(s).replace(/&lt;br\s*\/?&gt;/gi,' ⏎ ').replace(/&lt;b&gt;/gi,'').replace(/&lt;\/b&gt;/gi,'');}
 function pct(n,t){return t?(n/t*100):0;}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
@@ -1010,7 +1011,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260629admin36';
+    bgmAudio.src='audio/'+file+'?v=20260630admin37';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };
