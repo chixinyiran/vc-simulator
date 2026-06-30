@@ -192,9 +192,13 @@
     .prow label{flex:1 1 100%;font-weight:600;color:var(--ink);margin-bottom:-2px;}
     .stat-grid,.kpi{gap:8px;}
     .kpi{grid-template-columns:repeat(3,1fr);}
-    /* 称号分布图例:小屏隐藏迷你进度条,称号换行完整显示(不省略截断) */
+    /* 称号分布图例:小屏隐藏迷你进度条+压缩间距,称号缩字号单行显示(尽量不折行) */
     .pieLegend .lg-bar{display:none;}
-    .pieLegend .lg-nm{flex:1 1 auto;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.35;}
+    .pieLegend .lg{gap:6px;padding:6px 6px;}
+    .pieLegend .lg-nm{flex:1 1 auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;letter-spacing:0;}
+    .pieLegend .lg-nm .lg-emo{margin-right:2px;}
+    .pieLegend .lg-val{min-width:24px;font-size:11.5px;}
+    .pieLegend .lg-pct{min-width:0;font-size:10.5px;padding:1px 4px;}
   }
 
   /* ── 登录门 ── */
@@ -268,10 +272,10 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 所有数值实时读自游戏真实配置，所见即所玩</div>
 </div>
 
-<script src="config.js?v=20260630admin39"></script>
-<script src="data-bundle.js?v=20260630admin39"></script>
+<script src="config.js?v=20260630admin40"></script>
+<script src="data-bundle.js?v=20260630admin40"></script>
 <script>window.__NO_AUTO_AUDIO__=true;/*后台禁用全局音频自动解锁,避免iOS点空白处触发"播放动作";试听由row.onclick主动Sfx.unlock*/</script>
-<script src="engine.js?v=20260630admin39"></script>
+<script src="engine.js?v=20260630admin40"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
@@ -1064,7 +1068,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260630admin39';
+    bgmAudio.src='audio/'+file+'?v=20260630admin40';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };
