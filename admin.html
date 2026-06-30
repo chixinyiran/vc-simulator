@@ -92,7 +92,7 @@
   .pieLegend .lg.act{background:rgba(138,90,58,.07);border-color:rgba(138,90,58,.18);transform:translateX(3px);box-shadow:0 2px 6px rgba(26,23,20,.06);}
   @media(hover:hover){.pieLegend .lg:hover{background:rgba(138,90,58,.07);border-color:rgba(138,90,58,.18);transform:translateX(3px);box-shadow:0 2px 6px rgba(26,23,20,.06);}}
   .pieLegend .dot{flex:0 0 12px;width:12px;height:12px;border-radius:3px;box-shadow:0 1px 2px rgba(26,23,20,.22),inset 0 1px 0 rgba(255,255,255,.25);}
-  .pieLegend .lg-nm{flex:1 1 auto;font-size:13px;font-weight:700;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em;min-width:0;}
+  .pieLegend .lg-nm{flex:0 0 40%;font-size:13px;font-weight:700;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.02em;min-width:0;}
   .pieLegend .lg-nm .lg-emo{margin-right:4px;}
   .pieLegend .lg-bar{flex:1 1 20px;min-width:14px;height:5px;background:rgba(26,23,20,.06);border-radius:3px;overflow:hidden;position:relative;margin:0 4px;}
   .pieLegend .lg-bar i{position:absolute;left:0;top:0;height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);}
@@ -192,6 +192,9 @@
     .prow label{flex:1 1 100%;font-weight:600;color:var(--ink);margin-bottom:-2px;}
     .stat-grid,.kpi{gap:8px;}
     .kpi{grid-template-columns:repeat(3,1fr);}
+    /* 称号分布图例:小屏隐藏迷你进度条,称号换行完整显示(不省略截断) */
+    .pieLegend .lg-bar{display:none;}
+    .pieLegend .lg-nm{flex:1 1 auto;white-space:normal;overflow:visible;text-overflow:clip;line-height:1.35;}
   }
 
   /* ── 登录门 ── */
@@ -265,10 +268,10 @@
   <div class="footer"><span style="white-space:nowrap">🦞 小龙虾出品</span> · 所有数值实时读自游戏真实配置，所见即所玩</div>
 </div>
 
-<script src="config.js?v=20260630admin38"></script>
-<script src="data-bundle.js?v=20260630admin38"></script>
+<script src="config.js?v=20260630admin39"></script>
+<script src="data-bundle.js?v=20260630admin39"></script>
 <script>window.__NO_AUTO_AUDIO__=true;/*后台禁用全局音频自动解锁,避免iOS点空白处触发"播放动作";试听由row.onclick主动Sfx.unlock*/</script>
-<script src="engine.js?v=20260630admin38"></script>
+<script src="engine.js?v=20260630admin39"></script>
 <script>
 "use strict";
 /* ===================== 公共 ===================== */
@@ -1061,7 +1064,7 @@ function makeMusicRow(file,label,ds){
     if(bgmPlaying===row){ stopBgm(); return; }
     stopBgm();
     if(!bgmAudio){ bgmAudio=new Audio(); bgmAudio.loop=true; bgmAudio.volume=0.7; }
-    bgmAudio.src='audio/'+file+'?v=20260630admin38';
+    bgmAudio.src='audio/'+file+'?v=20260630admin39';
     bgmAudio.play().catch(()=>{});
     row.classList.add('playing'); bgmPlaying=row;
   }catch(e){} };
